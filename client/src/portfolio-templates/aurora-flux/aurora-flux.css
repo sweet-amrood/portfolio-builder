@@ -1,0 +1,875 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+.aflux {
+  --aflux-bg: #050508;
+  --aflux-surface: rgba(255, 255, 255, 0.04);
+  --aflux-surface-hover: rgba(255, 255, 255, 0.07);
+  --aflux-border: rgba(255, 255, 255, 0.1);
+  --aflux-text: #f4f4f5;
+  --aflux-muted: #a1a1aa;
+  --aflux-accent: #22d3ee;
+  --aflux-accent-2: #e879f9;
+  --aflux-accent-glow: rgba(34, 211, 238, 0.45);
+  --aflux-dock-bg: rgba(12, 12, 18, 0.72);
+  --aflux-aurora-1: rgba(34, 211, 238, 0.35);
+  --aflux-aurora-2: rgba(232, 121, 249, 0.28);
+  --aflux-aurora-3: rgba(99, 102, 241, 0.22);
+  --aflux-grid-line: rgba(255, 255, 255, 0.04);
+  --aflux-gradient: linear-gradient(120deg, var(--aflux-accent), var(--aflux-accent-2));
+  --tpl-mobile-border: var(--aflux-border);
+  --tpl-mobile-surface: var(--aflux-surface);
+  --tpl-mobile-surface-hover: var(--aflux-surface-hover);
+  --tpl-mobile-panel-bg: #0c0c12;
+  --tpl-mobile-muted: var(--aflux-muted);
+  --tpl-mobile-accent: var(--aflux-accent);
+  --tpl-mobile-accent-dim: rgba(34, 211, 238, 0.15);
+  position: relative;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  background: var(--aflux-bg);
+  color: var(--aflux-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.aflux * {
+  box-sizing: border-box;
+}
+
+.aflux--preview {
+  pointer-events: none;
+  user-select: none;
+}
+
+.aflux--editable {
+  pointer-events: auto;
+}
+
+.aflux-aurora {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.aflux-aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.85;
+  animation: aflux-drift 18s ease-in-out infinite;
+}
+
+.aflux-aurora-blob--1 {
+  width: 55vw;
+  height: 55vw;
+  max-width: 620px;
+  max-height: 620px;
+  top: -12%;
+  left: -8%;
+  background: var(--aflux-aurora-1);
+}
+
+.aflux-aurora-blob--2 {
+  width: 48vw;
+  height: 48vw;
+  max-width: 520px;
+  max-height: 520px;
+  bottom: -10%;
+  right: -6%;
+  background: var(--aflux-aurora-2);
+  animation-delay: -6s;
+  animation-duration: 22s;
+}
+
+.aflux-aurora-blob--3 {
+  width: 36vw;
+  height: 36vw;
+  max-width: 400px;
+  max-height: 400px;
+  top: 35%;
+  left: 40%;
+  background: var(--aflux-aurora-3);
+  animation-delay: -12s;
+  animation-duration: 26s;
+}
+
+@keyframes aflux-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, 6%) scale(1.06); }
+  66% { transform: translate(-5%, 3%) scale(0.94); }
+}
+
+.aflux-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--aflux-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--aflux-grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent);
+}
+
+.aflux-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.aflux-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 1rem 1.25rem 0;
+}
+
+.aflux-dock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0.55rem 0.65rem 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--aflux-dock-bg);
+  border: 1px solid var(--aflux-border);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.aflux-dock-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--aflux-text);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.aflux-dock-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--aflux-gradient);
+  box-shadow: 0 0 12px var(--aflux-accent-glow);
+  animation: aflux-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes aflux-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+.aflux-dock-links {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex-wrap: wrap;
+}
+
+.aflux-dock-link {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  color: var(--aflux-muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color 0.25s, background 0.25s;
+}
+
+.aflux-dock-link:hover {
+  color: var(--aflux-text);
+  background: var(--aflux-surface-hover);
+}
+
+.aflux-main {
+  position: relative;
+  z-index: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.25rem 4rem;
+}
+
+.aflux-hero {
+  padding: 3rem 0 4rem;
+  min-height: min(88vh, 780px);
+  display: flex;
+  align-items: center;
+}
+
+.aflux-hero-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+.aflux-hero-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.aflux-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'Space Mono', monospace;
+  background: var(--aflux-surface);
+  border: 1px solid var(--aflux-border);
+}
+
+.aflux-pill--muted {
+  color: var(--aflux-muted);
+}
+
+.aflux-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+  animation: aflux-pulse 2s ease-in-out infinite;
+}
+
+.aflux-hero-greeting {
+  margin: 0 0 0.35rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--aflux-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.aflux-hero-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.aflux-hero-accent {
+  display: block;
+  background: var(--aflux-gradient);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: aflux-shimmer 6s linear infinite;
+}
+
+@keyframes aflux-shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.aflux-hero-roles {
+  min-height: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+.aflux-typing {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 500;
+  color: var(--aflux-accent);
+}
+
+.aflux-typing-cursor {
+  color: var(--aflux-accent-2);
+  animation: aflux-blink 1s step-end infinite;
+}
+
+@keyframes aflux-blink {
+  50% { opacity: 0; }
+}
+
+.aflux-hero-tagline {
+  margin: 0 0 1.5rem;
+  max-width: 34rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--aflux-muted);
+}
+
+.aflux-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.aflux-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.35rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  cursor: pointer;
+}
+
+.aflux-btn--primary {
+  background: var(--aflux-gradient);
+  color: #050508;
+  box-shadow: 0 0 24px var(--aflux-accent-glow);
+}
+
+.aflux-btn--primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 36px var(--aflux-accent-glow);
+}
+
+.aflux-btn--ghost {
+  background: var(--aflux-surface);
+  border-color: var(--aflux-border);
+  color: var(--aflux-text);
+}
+
+.aflux-btn--ghost:hover {
+  background: var(--aflux-surface-hover);
+  transform: translateY(-2px);
+}
+
+.aflux-social-dock {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.aflux-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--aflux-surface);
+  border: 1px solid var(--aflux-border);
+  color: var(--aflux-text);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.aflux-social-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--aflux-accent);
+  box-shadow: 0 0 20px var(--aflux-accent-glow);
+}
+
+.aflux-hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+.aflux-orbit-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aflux-orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--aflux-border);
+}
+
+.aflux-orbit-ring--1 {
+  width: 280px;
+  height: 280px;
+  animation: aflux-spin 24s linear infinite;
+}
+
+.aflux-orbit-ring--2 {
+  width: 220px;
+  height: 220px;
+  border-color: rgba(255, 255, 255, 0.06);
+  animation: aflux-spin 18s linear infinite reverse;
+}
+
+.aflux-orbit-ring--3 {
+  width: 340px;
+  height: 340px;
+  border-style: dashed;
+  opacity: 0.5;
+  animation: aflux-spin 32s linear infinite;
+}
+
+@keyframes aflux-spin {
+  to { transform: rotate(360deg); }
+}
+
+.aflux-orbit-sat {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--aflux-gradient);
+  box-shadow: 0 0 16px var(--aflux-accent-glow);
+}
+
+.aflux-orbit-sat--1 {
+  animation: aflux-orbit 12s linear infinite;
+}
+
+.aflux-orbit-sat--2 {
+  width: 6px;
+  height: 6px;
+  animation: aflux-orbit 18s linear infinite reverse;
+}
+
+@keyframes aflux-orbit {
+  from { transform: rotate(0deg) translateX(140px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(140px) rotate(-360deg); }
+}
+
+.aflux-hero-avatar {
+  position: relative;
+  z-index: 2;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--aflux-bg), var(--aflux-bg)) padding-box, var(--aflux-gradient) border-box;
+  box-shadow: 0 0 60px var(--aflux-accent-glow);
+}
+
+.aflux-hero-avatar--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--aflux-surface);
+}
+
+.aflux-hero-avatar-initials {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: var(--aflux-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aflux-section {
+  padding: 4rem 0 2rem;
+  scroll-margin-top: 5rem;
+}
+
+.aflux-section-label {
+  margin: 0 0 1.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--aflux-accent);
+}
+
+.aflux-bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.aflux-bento-card {
+  padding: 1.35rem;
+  border-radius: 1.25rem;
+  background: var(--aflux-surface);
+  border: 1px solid var(--aflux-border);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.aflux-bento-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.aflux-bento-card--bio {
+  grid-column: span 2;
+}
+
+.aflux-bento-card--glow {
+  grid-column: span 3;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, var(--aflux-surface), rgba(255, 255, 255, 0.02));
+}
+
+.aflux-bento-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.aflux-bento-text {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--aflux-muted);
+}
+
+.aflux-stat-value {
+  display: block;
+  font-size: 2.25rem;
+  font-weight: 800;
+  background: var(--aflux-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aflux-stat-label {
+  font-size: 0.85rem;
+  color: var(--aflux-muted);
+}
+
+.aflux-orbit-mini {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.aflux-orbit-mini-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px dashed var(--aflux-border);
+  animation: aflux-spin 10s linear infinite;
+}
+
+.aflux-orbit-mini-core {
+  position: absolute;
+  inset: 30%;
+  border-radius: 50%;
+  background: var(--aflux-gradient);
+  box-shadow: 0 0 20px var(--aflux-accent-glow);
+}
+
+.aflux-bento-quote {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--aflux-text);
+}
+
+.aflux-marquee-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.aflux-marquee {
+  display: flex;
+  gap: 0.65rem;
+  width: max-content;
+  animation: aflux-marquee 38s linear infinite;
+}
+
+.aflux-marquee--reverse {
+  animation-direction: reverse;
+  animation-duration: 44s;
+}
+
+@keyframes aflux-marquee {
+  to { transform: translateX(-50%); }
+}
+
+.aflux-skill-pill {
+  flex-shrink: 0;
+  padding: 0.15rem;
+  border-radius: 999px;
+  background: var(--aflux-surface);
+  border: 1px solid var(--aflux-border);
+}
+
+.aflux-skill-pill--alt {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.aflux-projects-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.aflux-project-card {
+  position: relative;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: var(--aflux-surface);
+  border: 1px solid var(--aflux-border);
+  transition: transform 0.35s, border-color 0.35s;
+}
+
+.aflux-project-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.aflux-project-card--featured {
+  grid-column: span 2;
+}
+
+.aflux-project-glow {
+  position: absolute;
+  inset: -1px;
+  background: var(--aflux-gradient);
+  opacity: 0;
+  transition: opacity 0.35s;
+  z-index: 0;
+}
+
+.aflux-project-card:hover .aflux-project-glow {
+  opacity: 0.15;
+}
+
+.aflux-project-inner {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem;
+  background: linear-gradient(160deg, rgba(5, 5, 8, 0.4), rgba(5, 5, 8, 0.85));
+}
+
+.aflux-project-index {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--aflux-accent);
+  letter-spacing: 0.12em;
+}
+
+.aflux-project-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.aflux-project-card p {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+  color: var(--aflux-muted);
+}
+
+.aflux-project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.aflux-project-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--aflux-accent);
+  text-decoration: none;
+}
+
+.aflux-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--aflux-border);
+}
+
+.aflux-timeline-item {
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.aflux-timeline-dot {
+  position: absolute;
+  left: -1.65rem;
+  top: 0.35rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--aflux-gradient);
+  box-shadow: 0 0 16px var(--aflux-accent-glow);
+}
+
+.aflux-timeline-card {
+  padding: 1.25rem 1.35rem;
+  border-radius: 1rem;
+  background: var(--aflux-surface);
+  border: 1px solid var(--aflux-border);
+}
+
+.aflux-timeline-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.aflux-timeline-head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.aflux-timeline-period {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--aflux-accent);
+}
+
+.aflux-timeline-company {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  color: var(--aflux-text);
+}
+
+.aflux-timeline-desc {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--aflux-muted);
+}
+
+.aflux-contact-card {
+  position: relative;
+  padding: 2.5rem 2rem;
+  border-radius: 1.5rem;
+  background: var(--aflux-surface);
+  border: 1px solid var(--aflux-border);
+  overflow: hidden;
+  text-align: center;
+}
+
+.aflux-contact-border {
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: var(--aflux-gradient);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: aflux-shimmer 4s linear infinite;
+  background-size: 200% auto;
+  pointer-events: none;
+}
+
+.aflux-contact-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+}
+
+.aflux-contact-sub {
+  margin: 0 0 1.5rem;
+  color: var(--aflux-muted);
+}
+
+.aflux-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.aflux-footer {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.25rem 2.5rem;
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--aflux-muted);
+}
+
+.builder-template-canvas .aflux-dock,
+.template-preview-canvas .aflux-dock,
+.scaled-template-preview .aflux-dock {
+  position: relative;
+}
+
+.aflux--compact .aflux-hero-layout {
+  grid-template-columns: 1fr;
+}
+
+.aflux--compact .aflux-orbit-scene {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .aflux-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .aflux-hero-visual {
+    order: -1;
+    min-height: 240px;
+  }
+
+  .aflux-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .aflux-bento-card--bio,
+  .aflux-bento-card--glow {
+    grid-column: span 1;
+  }
+
+  .aflux-projects-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .aflux-project-card--featured {
+    grid-column: span 1;
+  }
+
+  .aflux-dock-links {
+    display: none;
+  }
+
+  .tpl-mobile-nav--aflux {
+    display: block;
+    width: 100%;
+  }
+
+  .tpl-mobile-nav--aflux .tpl-mobile-nav__bar {
+    display: flex;
+  }
+
+  .aflux-header:has(.tpl-mobile-nav--aflux) {
+    padding: 0.75rem 1rem;
+  }
+
+  .aflux-header:has(.tpl-mobile-nav--aflux) .tpl-desktop-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .aflux-hero {
+    padding-top: 1.5rem;
+    min-height: auto;
+  }
+
+  .aflux-section {
+    padding-top: 2.5rem;
+  }
+}

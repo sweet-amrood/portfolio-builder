@@ -1,0 +1,76 @@
+.uni-section {
+  margin: 0;
+  padding: 2.5rem 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.uni-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.25rem, 2.8vw, 1.9rem);
+  font-weight: 700;
+}
+
+.uni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+}
+
+.uni-grid--stats strong {
+  font-size: clamp(1.25rem, 3vw, 1.9rem);
+}
+
+.uni-card {
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  border-radius: 10px;
+  padding: 1rem;
+  background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.uni-card h3,
+.uni-card p,
+.uni-card small {
+  margin: 0;
+}
+
+.uni-card h3 {
+  margin-top: 0.45rem;
+  margin-bottom: 0.35rem;
+}
+
+.uni-icon {
+  display: inline-flex;
+}
+
+.uni-chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.uni-cta h2,
+.uni-cta p {
+  margin: 0 0 0.65rem;
+}
+
+.uni-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.uni-footer {
+  font-size: 0.9rem;
+  opacity: 0.82;
+}
+
+@container portfolio-template (max-width: 640px) {
+  .uni-section {
+    padding: 1.8rem 0;
+  }
+}

@@ -1,0 +1,378 @@
+.template-renderer {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  container-type: inline-size;
+  container-name: portfolio-template;
+}
+
+.tpl-scroll-x {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tpl-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+@container portfolio-template (max-width: 768px) {
+  .devmin {
+    overflow-x: hidden;
+  }
+
+  .devmin-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .devmin-main {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .devmin-header {
+    padding: 0.65rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .devmin-header-left {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .devmin-header-actions {
+    flex-shrink: 0;
+  }
+
+  .devmin-hero h1 {
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+  }
+
+  .devmin-hero-tagline {
+    font-size: 1rem;
+  }
+
+  .devmin-hero-bio {
+    font-size: 0.95rem;
+  }
+
+  .devmin-section {
+    padding: 1.75rem 0;
+    scroll-margin-top: 7rem;
+  }
+
+  .devmin-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .devmin-projects {
+    grid-template-columns: 1fr;
+  }
+
+  .devmin-project-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .devmin-skill-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .devmin-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .devmin-timeline-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .devmin-form button {
+    align-self: stretch;
+    width: 100%;
+  }
+
+  .devmin-hero-profile {
+    margin-bottom: 1rem;
+  }
+}
+
+@container portfolio-template (max-width: 480px) {
+  .devmin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .devmin-skill-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container portfolio-template (max-width: 900px) {
+  .sawad-hero {
+    padding: 2rem 1rem 1.75rem;
+  }
+
+  .sawad-title {
+    font-size: clamp(2.25rem, 12vw, 3.5rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .sawad-bio {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .sawad-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: none;
+  }
+
+  .sawad-stat-value {
+    font-size: 2rem;
+  }
+
+  .sawad-section {
+    padding: 2.5rem 1rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .sawad-section-title {
+    font-size: clamp(1.85rem, 8vw, 2.75rem);
+    margin-bottom: 1.75rem;
+  }
+
+  .sawad-projects,
+  .sawad-thoughts {
+    grid-template-columns: 1fr;
+  }
+
+  .sawad-tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sawad-contact-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .sawad-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .sawad-footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .sawad-marquee {
+    gap: 1.5rem;
+  }
+
+  .sawad-timeline-item {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .sawad-contact-form-wrap {
+    padding: 1.25rem;
+  }
+
+  .sawad-title {
+    word-break: break-word;
+  }
+
+  .sawad-nav-actions {
+    gap: 0.65rem;
+  }
+}
+
+@container portfolio-template (max-width: 480px) {
+  .sawad-cta-nav {
+    display: none;
+  }
+
+  .sawad-nav-external {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .devmin {
+    overflow-x: hidden;
+  }
+
+  .devmin-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .devmin-main {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .devmin-hero h1 {
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+  }
+
+  .devmin-hero-tagline {
+    font-size: 1rem;
+  }
+
+  .devmin-hero-bio {
+    font-size: 0.95rem;
+  }
+
+  .devmin-section {
+    padding: 1.75rem 0;
+    scroll-margin-top: 7rem;
+  }
+
+  .devmin-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .devmin-projects {
+    grid-template-columns: 1fr;
+  }
+
+  .devmin-project-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .devmin-skill-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .devmin-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .devmin-timeline-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .devmin-form button {
+    align-self: stretch;
+    width: 100%;
+  }
+
+  .devmin-header {
+    padding: 0.65rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .devmin-hero-profile {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .devmin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .devmin-skill-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .sawad-hero,
+  .sawad-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .sawad-hero {
+    padding-top: 2rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .sawad-title {
+    font-size: clamp(2.25rem, 12vw, 3.5rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .sawad-bio {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .sawad-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: none;
+  }
+
+  .sawad-stat-value {
+    font-size: 2rem;
+  }
+
+  .sawad-section {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .sawad-section-title {
+    font-size: clamp(1.85rem, 8vw, 2.75rem);
+    margin-bottom: 1.75rem;
+  }
+
+  .sawad-projects,
+  .sawad-thoughts {
+    grid-template-columns: 1fr;
+  }
+
+  .sawad-tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sawad-contact-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .sawad-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .sawad-footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .sawad-marquee {
+    gap: 1.5rem;
+  }
+
+  .sawad-timeline-item {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .sawad-contact-form-wrap {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sawad-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .sawad-cta-nav {
+    display: none;
+  }
+}

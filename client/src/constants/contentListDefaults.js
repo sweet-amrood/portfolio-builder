@@ -1,0 +1,37 @@
+export const LIST_ITEM_DEFAULTS = {
+  project: { title: 'New Project', subtitle: '', image: null },
+  projectWithTech: { title: 'New Project', subtitle: '', tech: [], image: null, link: '' },
+  experience: { company: 'Company', role: 'Role description', period: 'Period' },
+  experienceDetailed: {
+    company: 'Company',
+    role: 'Role',
+    description: '',
+    period: 'Period',
+  },
+  education: {
+    school: 'School',
+    degree: 'Degree',
+    description: '',
+    period: 'Period',
+  },
+  skillGroup: { name: 'Category', items: [] },
+  skill: '',
+  tool: { name: 'Tool', desc: '', showDesc: true },
+  thought: { title: 'Article', excerpt: '', date: '', read: '5min read' },
+  stat: { value: '0', label: 'Label' },
+  statWithSub: { value: '0', label: 'Label', sub: '' },
+  copilotFaq: { question: 'New question?', answer: 'Answer here.' },
+  service: { name: 'New Service', desc: 'Describe what you offer.', icon: '✦' },
+  expertiseGroup: {
+    title: 'New Expertise',
+    description: 'Describe this area of expertise.',
+    icon: 'React',
+    tech: [],
+  },
+  experienceClassic: {
+    role: 'Role',
+    location: 'Location',
+    period: 'Period',
+    description: '',
+  },
+};

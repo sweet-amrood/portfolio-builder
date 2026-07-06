@@ -1,0 +1,233 @@
+.dashboard-analytics {
+  display: grid;
+  gap: 1rem;
+}
+
+.dashboard-analytics-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.dashboard-analytics-tabs {
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: #0b1220;
+  border: 1px solid #1e293b;
+}
+
+.dashboard-analytics-tab {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.dashboard-analytics-tab--active {
+  background: #1d4ed8;
+  color: #fff;
+}
+
+.dashboard-analytics-live {
+  color: #4ade80;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.dashboard-analytics-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.dashboard-analytics-metric {
+  padding: 0.85rem;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+  background: #0b1220;
+}
+
+.dashboard-analytics-metric span {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.dashboard-analytics-metric strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: #f8fafc;
+  font-size: 1.35rem;
+}
+
+.dashboard-analytics-metric small {
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.dashboard-analytics-chart {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 0.65rem;
+  align-items: end;
+  min-height: 180px;
+  padding: 0.75rem 0.25rem 0;
+}
+
+.dashboard-analytics-bar-group {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.dashboard-analytics-bar-stack {
+  width: 100%;
+  max-width: 52px;
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+}
+
+.dashboard-analytics-bar {
+  width: 12px;
+  min-height: 4px;
+  border-radius: 6px 6px 2px 2px;
+}
+
+.dashboard-analytics-bar--visits {
+  background: #38bdf8;
+}
+
+.dashboard-analytics-bar--clicks {
+  background: #a78bfa;
+}
+
+.dashboard-analytics-bar--messages {
+  background: #4ade80;
+}
+
+.dashboard-analytics-bar-group small {
+  color: #64748b;
+  font-size: 0.68rem;
+}
+
+.dashboard-analytics-bar-group strong {
+  color: #cbd5e1;
+  font-size: 0.78rem;
+}
+
+.dashboard-analytics-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+.dashboard-analytics-dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  margin-right: 0.35rem;
+}
+
+.dashboard-analytics-dot--visits {
+  background: #38bdf8;
+}
+
+.dashboard-analytics-dot--clicks {
+  background: #a78bfa;
+}
+
+.dashboard-analytics-dot--messages {
+  background: #4ade80;
+}
+
+.dashboard-analytics-feed h3 {
+  margin: 0 0 0.65rem;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+}
+
+.portfolio-analytics-tracker {
+  display: none;
+}
+
+.analytics-recent-panel {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.analytics-recent-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.analytics-recent-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.analytics-recent-actions .btn-ghost {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+}
+
+.analytics-recent-more {
+  display: block;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid #1e293b;
+  color: #7dd3fc;
+  text-decoration: none;
+  text-align: center;
+}
+
+.analytics-page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.analytics-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  color: #94a3b8;
+}
+
+.analytics-events-table {
+  max-height: none;
+}
+
+@media (max-width: 900px) {
+  .dashboard-analytics-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-analytics-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-analytics-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

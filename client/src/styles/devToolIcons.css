@@ -1,0 +1,25 @@
+.pf-tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pf-tech-badge--text-only {
+  gap: 0;
+}
+
+.pf-tool-icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+
+.pf-dev-icon {
+  flex-shrink: 0;
+}
+
+.pf-dev-icon--fallback {
+  color: #94a3b8;
+}

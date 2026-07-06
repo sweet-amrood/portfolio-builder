@@ -1,0 +1,102 @@
+export const lumenBloomContent = {
+  brandTag: 'studio',
+  name: 'Your Name',
+  greeting: 'Hello, I craft',
+  headlineAccent: 'thoughtful experiences',
+  flipRoles: [
+    'Product Designer',
+    'Frontend Engineer',
+    'Brand Storyteller',
+    'Design Systems Lead',
+  ],
+  tagline:
+    'I turn fuzzy ideas into crisp interfaces — warm, accessible, and quietly delightful. From zero-to-one products to polished design systems.',
+  heroPrimaryButtonLabel: 'See selected work',
+  heroPrimaryButtonHref: '#projects',
+  heroSecondaryButtonLabel: 'Start a conversation',
+  heroSecondaryButtonHref: '#contact',
+  availability: 'Open to collaborations',
+  location: 'Based anywhere',
+  profileImage: null,
+  nav: [
+    { label: 'About', section: 'about' },
+    { label: 'Skills', section: 'skills' },
+    { label: 'Work', section: 'projects' },
+    { label: 'Story', section: 'experience' },
+    { label: 'Hello', section: 'contact' },
+  ],
+  links: {
+    github: 'https://github.com',
+    linkedin: 'https://linkedin.com',
+    email: 'hello@example.com',
+    resume: '#',
+    instagram: 'https://instagram.com',
+  },
+  pullQuote: 'Good design feels obvious only after someone else did the hard thinking.',
+  highlights: [
+    { value: '6+', label: 'Years crafting' },
+    { value: '35', label: 'Launches' },
+    { value: '98%', label: 'Client retention' },
+  ],
+  about:
+    'I am a designer-developer who loves editorial layouts, tactile micro-interactions, and products that respect people\'s time. I partner with startups and studios to ship brands, apps, and marketing sites that feel human.',
+  skillGroups: [
+    { name: 'Design', items: ['Figma', 'Framer', 'Prototyping', 'Design Systems', 'Typography'] },
+    { name: 'Build', items: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Motion'] },
+    { name: 'Craft', items: ['Storytelling', 'Accessibility', 'Brand', 'Illustration', 'Photography'] },
+  ],
+  projects: [
+    {
+      title: 'Field Notes',
+      subtitle: 'A calm productivity app with paper-inspired cards, gentle haptics, and focus-first flows.',
+      tech: ['React', 'Framer Motion', 'TypeScript'],
+      featured: true,
+      link: '#',
+    },
+    {
+      title: 'Harbor & Co.',
+      subtitle: 'Boutique commerce rebrand with modular storytelling blocks and editorial product pages.',
+      tech: ['Next.js', 'Sanity', 'Tailwind'],
+      link: '#',
+    },
+    {
+      title: 'Palette Kit',
+      subtitle: 'Open-source theme generator for warm light interfaces with exportable design tokens.',
+      tech: ['TypeScript', 'CSS', 'Figma'],
+      link: '#',
+    },
+    {
+      title: 'Studio Atlas',
+      subtitle: 'Creative agency site with scroll-linked illustrations and asymmetric case-study layouts.',
+      tech: ['React', 'GSAP', 'WebGL'],
+      link: '#',
+    },
+  ],
+  experience: [
+    {
+      company: 'North & Kind',
+      role: 'Lead Product Designer',
+      period: '2022 – Present',
+      description: 'Directed visual language, design system, and flagship product surfaces for a growing SaaS team.',
+    },
+    {
+      company: 'Paperlane',
+      role: 'Design Engineer',
+      period: '2019 – 2022',
+      description: 'Shipped marketing sites and interactive prototypes for lifestyle and fintech clients.',
+    },
+    {
+      company: 'Independent',
+      role: 'Freelance Creative',
+      period: '2017 – 2019',
+      description: 'Built identities, portfolios, and MVPs end-to-end for early-stage founders.',
+    },
+  ],
+  contact: {
+    title: 'Let\'s make something lovely',
+    subtitle: 'Share your project, timeline, and vibe — I\'ll reply within one business day.',
+    email: 'hello@example.com',
+    buttonText: 'Say hello',
+  },
+  footer: 'Built and Developed by PortfolioForge',
+};

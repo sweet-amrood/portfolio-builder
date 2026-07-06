@@ -1,0 +1,74 @@
+.tpl-interactive-card {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tpl-interactive-card:hover {
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+
+.tpl-interactive-card .devmin-project-visual,
+.tpl-interactive-card .sawad-project-img,
+.tpl-interactive-card .cmod-project-visual {
+  overflow: hidden;
+}
+
+.tpl-interactive-card .devmin-project-visual-img,
+.tpl-interactive-card .sawad-project-img-cover,
+.tpl-interactive-card .cmod-project-visual-img {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tpl-interactive-card:hover .devmin-project-visual-img,
+.tpl-interactive-card:hover .sawad-project-img-cover,
+.tpl-interactive-card:hover .cmod-project-visual-img {
+  transform: scale(1.06);
+}
+
+.tpl-motion-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.tpl-motion-link {
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.tpl-motion-link:hover {
+  transform: translateY(-1px);
+}
+
+.devmin-skill-badge,
+.devmin-tech-chip,
+.sawad-skill-tag,
+.cmod-skill-chip {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.devmin-skill-badge:hover,
+.devmin-tech-chip:hover,
+.sawad-skill-tag:hover,
+.cmod-skill-chip:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.sawad-tool-card,
+.cmod-service-card,
+.devmin-stat-card {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.sawad-timeline-item,
+.devmin-timeline-item {
+  transition: transform 0.25s ease;
+}
+
+.sawad-profile-photo,
+.devmin-avatar,
+.cmod-avatar {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.sawad-profile:hover .sawad-profile-photo,
+.devmin-hero-profile:hover .devmin-avatar,
+.cmod-hero-top:hover .cmod-avatar {
+  transform: scale(1.04);
+}
