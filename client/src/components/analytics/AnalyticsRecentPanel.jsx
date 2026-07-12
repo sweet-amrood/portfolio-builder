@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FiActivity, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { analyticsAPI } from '../../services/api';
 import { formatSavedAt } from '../../utils/builderPreviewDraft';
 
@@ -10,6 +11,12 @@ function eventLabel(item) {
   if (item.type === 'visit') return 'Portfolio visit';
   if (item.type === 'message') return item.label === 'visitor-reply' ? 'Visitor reply' : 'New message';
   return item.label ? `Click: ${item.label}` : 'Click';
+}
+
+function eventTone(type) {
+  if (type === 'visit') return 'visit';
+  if (type === 'message') return 'message';
+  return 'click';
 }
 
 export default function AnalyticsRecentPanel() {
@@ -47,27 +54,39 @@ export default function AnalyticsRecentPanel() {
       ) : visibleEvents.length ? (
         <div className="dashboard-activity-list analytics-recent-list">
           {visibleEvents.map((item) => (
-            <div key={item.id} className="dashboard-activity-item">
-              <strong>{eventLabel(item)}</strong>
-              <span>{item.slug}</span>
+            <div
+              key={item.id}
+              className={`dashboard-activity-item dashboard-activity-item--${eventTone(item.type)}`}
+            >
+              <span className={`dashboard-activity-dot dashboard-activity-dot--${eventTone(item.type)}`} />
+              <div className="dashboard-activity-copy">
+                <strong>{eventLabel(item)}</strong>
+                <span>{item.slug}</span>
+              </div>
               <small>{formatSavedAt(item.createdAt)}</small>
             </div>
           ))}
         </div>
       ) : (
-        <p className="dashboard-empty">No analytics events yet.</p>
+        <div className="dashboard-empty-state dashboard-empty-state--inline">
+          <FiActivity />
+          <p>No analytics events yet.</p>
+        </div>
       )}
 
       <div className="analytics-recent-actions">
         {events.length > DEFAULT_VISIBLE ? (
           <button
             type="button"
-            className="btn-ghost"
+            className="dashboard-btn dashboard-btn--ghost dashboard-btn--sm"
             onClick={() => setExpanded((value) => !value)}
           >
+            {expanded ? <FiChevronUp /> : <FiChevronDown />}
             {expanded ? 'Show less' : `Show all ${Math.min(events.length, EXPANDED_LIMIT)}`}
           </button>
-        ) : null}
+        ) : (
+          <span />
+        )}
         <Link to="/dashboard/analytics" className="analytics-recent-more">
           View full analytics
         </Link>

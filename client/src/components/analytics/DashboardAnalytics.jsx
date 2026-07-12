@@ -1,11 +1,19 @@
 import { useMemo, useState } from 'react';
+import { FiActivity, FiEye, FiMessageSquare, FiMousePointer } from 'react-icons/fi';
 import { useAnalytics } from '../../context/AnalyticsContext';
 import { formatSavedAt } from '../../utils/builderPreviewDraft';
 
-function MetricCard({ label, value, hint }) {
+function MetricCard({ label, value, hint, icon: Icon }) {
   return (
     <article className="dashboard-analytics-metric">
-      <span>{label}</span>
+      <div className="dashboard-analytics-metric-top">
+        <span>{label}</span>
+        {Icon ? (
+          <span className="dashboard-analytics-metric-icon">
+            <Icon />
+          </span>
+        ) : null}
+      </div>
       <strong>{value}</strong>
       {hint ? <small>{hint}</small> : null}
     </article>
@@ -38,7 +46,13 @@ function eventLabel(item) {
   return item.label ? `Click: ${item.label}` : 'Click';
 }
 
-export default function DashboardAnalytics({ showRecent = true }) {
+function eventTone(type) {
+  if (type === 'visit') return 'visit';
+  if (type === 'message') return 'message';
+  return 'click';
+}
+
+export default function DashboardAnalytics({ showRecent = true, compact = false }) {
   const { summary, loading } = useAnalytics();
   const [period, setPeriod] = useState('daily');
 
@@ -59,36 +73,64 @@ export default function DashboardAnalytics({ showRecent = true }) {
     return Math.max(1, ...values, 0);
   }, [series]);
 
+  const chartSeries = compact ? series.slice(-7) : series;
+
   return (
-    <div className="dashboard-analytics">
+    <div className={`dashboard-analytics${compact ? ' dashboard-analytics--compact' : ''}`}>
       <div className="dashboard-analytics-toolbar">
-        <div className="dashboard-analytics-tabs">
+        <div className="dashboard-analytics-tabs" role="tablist" aria-label="Analytics period">
           {['daily', 'weekly', 'monthly'].map((tab) => (
             <button
               key={tab}
               type="button"
-              className={period === tab ? 'dashboard-analytics-tab dashboard-analytics-tab--active' : 'dashboard-analytics-tab'}
+              role="tab"
+              aria-selected={period === tab}
+              className={
+                period === tab
+                  ? 'dashboard-analytics-tab dashboard-analytics-tab--active'
+                  : 'dashboard-analytics-tab'
+              }
               onClick={() => setPeriod(tab)}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
         </div>
-        {loading ? <span className="dashboard-analytics-live">Updating…</span> : (
-          <span className="dashboard-analytics-live">Live</span>
-        )}
+        <span className={`dashboard-analytics-live${loading ? ' dashboard-analytics-live--busy' : ''}`}>
+          {loading ? 'Updating…' : 'Live'}
+        </span>
       </div>
 
       <div className="dashboard-analytics-metrics">
-        <MetricCard label="Visits" value={periodTotals.visits} hint={period === 'daily' ? 'Today' : period} />
-        <MetricCard label="Clicks" value={periodTotals.clicks} hint={period === 'daily' ? 'Today' : period} />
-        <MetricCard label="Messages" value={periodTotals.messages} hint={period === 'daily' ? 'Today' : period} />
-        <MetricCard label="All-time visits" value={summary.totals.visits} hint="Total tracked" />
+        <MetricCard
+          label="Visits"
+          value={periodTotals.visits}
+          hint={period === 'daily' ? 'Today' : period}
+          icon={FiEye}
+        />
+        <MetricCard
+          label="Clicks"
+          value={periodTotals.clicks}
+          hint={period === 'daily' ? 'Today' : period}
+          icon={FiMousePointer}
+        />
+        <MetricCard
+          label="Messages"
+          value={periodTotals.messages}
+          hint={period === 'daily' ? 'Today' : period}
+          icon={FiMessageSquare}
+        />
+        <MetricCard
+          label="All-time visits"
+          value={summary.totals.visits}
+          hint="Total tracked"
+          icon={FiActivity}
+        />
       </div>
 
       <div className="dashboard-analytics-chart">
-        {series.length ? (
-          series.map((row) => {
+        {chartSeries.length ? (
+          chartSeries.map((row) => {
             const key = row.date || row.period;
             const total = row.visits + row.clicks + row.messages;
             return (
@@ -116,14 +158,23 @@ export default function DashboardAnalytics({ showRecent = true }) {
             );
           })
         ) : (
-          <p className="dashboard-empty">No analytics yet. Share your live portfolio to start collecting visits.</p>
+          <div className="dashboard-empty-state dashboard-empty-state--inline">
+            <FiActivity />
+            <p>No analytics yet. Share your live portfolio to start collecting visits.</p>
+          </div>
         )}
       </div>
 
       <div className="dashboard-analytics-legend">
-        <span><i className="dashboard-analytics-dot dashboard-analytics-dot--visits" /> Visits</span>
-        <span><i className="dashboard-analytics-dot dashboard-analytics-dot--clicks" /> Clicks</span>
-        <span><i className="dashboard-analytics-dot dashboard-analytics-dot--messages" /> Messages</span>
+        <span>
+          <i className="dashboard-analytics-dot dashboard-analytics-dot--visits" /> Visits
+        </span>
+        <span>
+          <i className="dashboard-analytics-dot dashboard-analytics-dot--clicks" /> Clicks
+        </span>
+        <span>
+          <i className="dashboard-analytics-dot dashboard-analytics-dot--messages" /> Messages
+        </span>
       </div>
 
       {showRecent && summary.recent?.length ? (
@@ -131,9 +182,15 @@ export default function DashboardAnalytics({ showRecent = true }) {
           <h3>Recent analytics events</h3>
           <div className="dashboard-activity-list">
             {summary.recent.map((item) => (
-              <div key={item.id} className="dashboard-activity-item">
-                <strong>{eventLabel(item)}</strong>
-                <span>{item.slug}</span>
+              <div
+                key={item.id}
+                className={`dashboard-activity-item dashboard-activity-item--${eventTone(item.type)}`}
+              >
+                <span className={`dashboard-activity-dot dashboard-activity-dot--${eventTone(item.type)}`} />
+                <div className="dashboard-activity-copy">
+                  <strong>{eventLabel(item)}</strong>
+                  <span>{item.slug}</span>
+                </div>
                 <small>{formatSavedAt(item.createdAt)}</small>
               </div>
             ))}
