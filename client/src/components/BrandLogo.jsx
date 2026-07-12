@@ -1,69 +1,60 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const LOGO_FULL = '/logo.png';
-const LOGO_ICON = '/favicon.svg';
+const LOGO = '/logo.png';
 
-const iconSizes = {
-  sm: 28,
-  md: 32,
-  lg: 38,
+const compactHeights = {
+  sm: 34,
+  md: 40,
+  lg: 46,
 };
 
 const fullHeights = {
   sm: 72,
-  md: 88,
-  lg: 104,
+  md: 96,
+  lg: 120,
 };
 
 export default function BrandLogo({
   to,
   size = 'md',
   variant = 'compact',
-  showText,
+  showText = false,
   className = '',
   onClick,
 }) {
-  const [fullLogoFailed, setFullLogoFailed] = useState(false);
-  const useCompact = variant !== 'full' || fullLogoFailed;
-  const showLabel = showText ?? useCompact;
+  const [failed, setFailed] = useState(false);
+  const isFull = variant === 'full';
+  const isNav = className.includes('brand-logo--nav');
+  const height = isNav
+    ? undefined
+    : isFull
+      ? fullHeights[size] || fullHeights.md
+      : compactHeights[size] || compactHeights.md;
 
-  let content;
-
-  if (!useCompact) {
-    content = (
+  const content = failed ? (
+    <span className="brand-logo-text">
+      Portfolio<span className="brand-logo-accent">Forge</span>
+    </span>
+  ) : (
+    <>
       <img
-        src={LOGO_FULL}
-        alt="PortfolioForge"
-        className="brand-logo-image brand-logo-image--full"
-        style={{ height: fullHeights[size] || fullHeights.md }}
+        src={LOGO}
+        alt="Portfolio Forge"
+        className={`brand-logo-image${isFull ? ' brand-logo-image--full' : ' brand-logo-image--compact'}`}
+        style={height ? { height } : undefined}
         draggable={false}
-        onError={() => setFullLogoFailed(true)}
+        onError={() => setFailed(true)}
       />
-    );
-  } else {
-    const iconPx = iconSizes[size] || iconSizes.md;
-    content = (
-      <>
-        <img
-          src={LOGO_ICON}
-          alt=""
-          aria-hidden="true"
-          className="brand-logo-icon"
-          width={iconPx}
-          height={iconPx}
-          draggable={false}
-        />
-        {showLabel ? (
-          <span className="brand-logo-text">
-            Portfolio<span className="brand-logo-accent">Forge</span>
-          </span>
-        ) : null}
-      </>
-    );
-  }
+      {showText ? (
+        <span className="brand-logo-text">
+          Portfolio<span className="brand-logo-accent">Forge</span>
+        </span>
+      ) : null}
+    </>
+  );
 
-  const rootClass = `brand-logo brand-logo--${size} brand-logo--${useCompact ? 'compact' : 'full'}${className ? ` ${className}` : ''}`;
+  const rootClass = `brand-logo brand-logo--${size} brand-logo--${isFull ? 'full' : 'compact'}${className ? ` ${className}` : ''}`;
 
   if (to) {
     return (

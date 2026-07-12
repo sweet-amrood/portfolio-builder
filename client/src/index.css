@@ -876,7 +876,9 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1.75rem;
+  height: 56px;
+  min-height: 56px;
+  padding: 0 1.75rem;
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -884,7 +886,7 @@ a:hover {
   backdrop-filter: blur(14px);
   z-index: 100;
   gap: 1rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .brand-logo {
@@ -905,30 +907,38 @@ a:hover {
   object-fit: contain;
 }
 
-.brand-logo-icon {
-  border-radius: 8px;
+.brand-logo--nav {
+  align-self: stretch;
+  height: 100%;
+  max-height: 56px;
+}
+
+.brand-logo--nav .brand-logo-image,
+.brand-logo--nav .brand-logo-image--compact {
+  height: 100% !important;
+  width: auto !important;
+  max-width: none;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.brand-logo-image--compact {
+  width: auto;
+  max-width: min(168px, 42vw);
+  object-fit: contain;
 }
 
 .brand-logo-image--full {
   width: auto;
-  max-width: min(340px, 72vw);
-  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
-}
-
-.brand-logo--compact.brand-logo--sm .brand-logo-text {
-  font-size: 1rem;
-}
-
-.brand-logo--compact.brand-logo--md .brand-logo-text {
-  font-size: 1.08rem;
-}
-
-.brand-logo--compact.brand-logo--lg .brand-logo-text {
-  font-size: 1.2rem;
+  max-width: min(380px, 84vw);
+  border-radius: 12px;
+  filter: drop-shadow(0 10px 28px rgba(37, 99, 235, 0.22));
 }
 
 .auth-brand-logo.brand-logo--full .brand-logo-image--full {
-  max-width: min(380px, 86vw);
+  max-width: min(420px, 88vw);
+  height: auto !important;
 }
 
 .brand-logo-text {
@@ -3810,7 +3820,13 @@ a:hover {
   }
 
   .app-nav {
-    padding: 0.85rem 1rem;
+    padding: 0 1rem;
+    height: 52px;
+    min-height: 52px;
+  }
+
+  .brand-logo--nav {
+    max-height: 52px;
   }
 
   .user-name {

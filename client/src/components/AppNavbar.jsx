@@ -29,7 +29,7 @@ export default function AppNavbar() {
 
   return (
     <nav className="app-nav">
-      <BrandLogo to="/home" size="md" />
+      <BrandLogo to="/home" className="brand-logo--nav" />
 
       <div className="nav-links nav-links--desktop">
         {links.map((link) => (

@@ -56,7 +56,7 @@ export function showSystemNotification({ title, body, onClick }) {
   try {
     const notification = new Notification(title, {
       body,
-      icon: '/favicon.svg',
+      icon: '/logo.png',
       tag: 'portfolioforge-message',
     });
     notification.onclick = () => {

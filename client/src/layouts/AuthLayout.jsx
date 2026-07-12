@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import BrandLogo from '../components/BrandLogo';
 import { motion } from 'framer-motion';
 import PortfolioMosaicBg from '../components/PortfolioMosaicBg';

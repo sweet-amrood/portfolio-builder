@@ -425,7 +425,12 @@
 }
 
 .home-cta-logo {
-  margin-bottom: 1rem;
+  margin-bottom: 1.15rem;
+  justify-content: center;
+}
+
+.home-cta-logo .brand-logo-image--full {
+  max-width: min(360px, 82vw);
 }
 
 .home-cta-card h2 {
