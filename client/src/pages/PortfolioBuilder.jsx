@@ -81,13 +81,14 @@ export default function PortfolioBuilder() {
   const navigate = useNavigate();
   const templateId = location.state?.templateId;
   const resolvedId = templateId || 'dark-orange-pro';
+  const aiGenerated = Boolean(location.state?.aiGenerated);
 
   const currentTemplate = getTemplateById(resolvedId);
   const isBuiltTemplate = currentTemplate?.built;
 
   const initialState = useMemo(
     () => buildInitialState(resolvedId, isBuiltTemplate),
-    [resolvedId, isBuiltTemplate]
+    [resolvedId, isBuiltTemplate, aiGenerated]
   );
 
   const {
@@ -99,6 +100,13 @@ export default function PortfolioBuilder() {
     canRedo,
     resetHistory,
   } = useBuilderHistory(initialState);
+
+  useEffect(() => {
+    if (!aiGenerated) return;
+    resetHistory(initialState);
+    setSaveStatus('saved');
+    setActiveSection('hero');
+  }, [aiGenerated, initialState, resetHistory]);
 
   const { content, sectionOrder, activeThemeId } = builderState;
 

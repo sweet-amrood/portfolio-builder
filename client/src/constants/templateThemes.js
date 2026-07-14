@@ -1254,6 +1254,32 @@ export const TEMPLATE_THEME_REGISTRY = {
       },
     ],
   },
+  'ai-dynamic': {
+    complexity: 'medium',
+    maxThemes: 2,
+    themes: [
+      {
+        id: 'ai-dark',
+        name: 'AI Dark',
+        swatch: ['#070b16', '#6366f1'],
+        vars: {
+          '--bg': '#070b16',
+          '--text': '#f8fafc',
+          '--accent': '#6366f1',
+        },
+      },
+      {
+        id: 'ai-light',
+        name: 'AI Light',
+        swatch: ['#f6f8fc', '#4f46e5'],
+        vars: {
+          '--bg': '#f6f8fc',
+          '--text': '#0f172a',
+          '--accent': '#4f46e5',
+        },
+      },
+    ],
+  },
 };
 
 export function getThemesForTemplate(templateId) {

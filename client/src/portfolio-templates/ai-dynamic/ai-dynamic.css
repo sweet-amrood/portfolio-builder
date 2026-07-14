@@ -1,0 +1,338 @@
+.ai-dyn {
+  --ai-bg: #070b16;
+  --ai-surface: rgba(15, 23, 42, 0.72);
+  --ai-text: #f8fafc;
+  --ai-muted: #94a3b8;
+  --ai-border: rgba(148, 163, 184, 0.18);
+  --ai-accent: #6366f1;
+  --ai-font-heading: 'Space Grotesk', sans-serif;
+  --ai-font-body: 'DM Sans', sans-serif;
+  min-height: 100%;
+  color: var(--ai-text);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--ai-accent) 28%, transparent), transparent 42%),
+    radial-gradient(circle at bottom left, rgba(6, 182, 212, 0.12), transparent 40%),
+    var(--ai-bg);
+  font-family: var(--ai-font-body);
+}
+
+.ai-dyn--light {
+  --ai-bg: #f6f8fc;
+  --ai-surface: rgba(255, 255, 255, 0.86);
+  --ai-text: #0f172a;
+  --ai-muted: #64748b;
+  --ai-border: rgba(15, 23, 42, 0.1);
+}
+
+.ai-dyn h1,
+.ai-dyn h2,
+.ai-dyn h3,
+.ai-dyn h4,
+.ai-dyn .ai-dyn-brand {
+  font-family: var(--ai-font-heading);
+}
+
+.ai-dyn-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--ai-border);
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--ai-bg) 82%, transparent);
+  z-index: 5;
+}
+
+.ai-dyn-brand {
+  color: var(--ai-text);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ai-dyn-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.ai-dyn-nav-links a {
+  color: var(--ai-muted);
+  text-decoration: none;
+  text-transform: capitalize;
+  font-size: 0.88rem;
+}
+
+.ai-dyn-nav-links a:hover {
+  color: var(--ai-accent);
+}
+
+.ai-dyn-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 2rem;
+  align-items: center;
+  padding: 3.5rem 1.5rem 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.ai-dyn-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--ai-accent);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.ai-dyn-hero h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.ai-dyn-hero h2 {
+  margin: 0.65rem 0 0;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  color: color-mix(in srgb, var(--ai-text) 80%, var(--ai-accent));
+  font-weight: 600;
+}
+
+.ai-dyn-lead {
+  margin: 1rem 0 0;
+  max-width: 34rem;
+  color: var(--ai-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.ai-dyn-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.ai-dyn-hero-meta span {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--ai-border);
+  color: var(--ai-muted);
+  font-size: 0.82rem;
+}
+
+.ai-dyn-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.4rem;
+}
+
+.ai-dyn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--ai-border);
+  color: var(--ai-text);
+  text-decoration: none;
+  font-weight: 600;
+  background: transparent;
+}
+
+.ai-dyn-btn--primary {
+  background: var(--ai-accent);
+  border-color: transparent;
+  color: #fff;
+}
+
+.ai-dyn-hero-visual {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.ai-dyn-photo {
+  width: min(100%, 280px);
+  aspect-ratio: 1;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--ai-border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--ai-accent) 18%, var(--ai-surface));
+}
+
+.ai-dyn-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ai-dyn-photo span {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--ai-accent);
+  font-family: var(--ai-font-heading);
+}
+
+.ai-dyn-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  width: 100%;
+}
+
+.ai-dyn-highlight {
+  padding: 0.75rem;
+  border-radius: 14px;
+  border: 1px solid var(--ai-border);
+  background: var(--ai-surface);
+  text-align: center;
+}
+
+.ai-dyn-highlight strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+.ai-dyn-highlight span {
+  color: var(--ai-muted);
+  font-size: 0.75rem;
+}
+
+.ai-dyn-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.ai-dyn-section-label {
+  margin: 0 0 0.4rem;
+  color: var(--ai-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.ai-dyn-section h3 {
+  margin: 0 0 1.1rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -0.03em;
+}
+
+.ai-dyn-section > p {
+  color: var(--ai-muted);
+  max-width: 46rem;
+  line-height: 1.7;
+}
+
+.ai-dyn-skill-grid,
+.ai-dyn-project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.ai-dyn-skill-card,
+.ai-dyn-project-card,
+.ai-dyn-timeline-item {
+  padding: 1.1rem;
+  border-radius: 16px;
+  border: 1px solid var(--ai-border);
+  background: var(--ai-surface);
+}
+
+.ai-dyn-skill-card h4,
+.ai-dyn-project-card h4,
+.ai-dyn-timeline-item h4 {
+  margin: 0 0 0.55rem;
+}
+
+.ai-dyn-project-card p,
+.ai-dyn-timeline-item p {
+  margin: 0 0 0.75rem;
+  color: var(--ai-muted);
+  line-height: 1.55;
+}
+
+.ai-dyn-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.ai-dyn-tags span {
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ai-accent) 14%, transparent);
+  color: var(--ai-text);
+  font-size: 0.78rem;
+}
+
+.ai-dyn-project-card a {
+  color: var(--ai-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.ai-dyn-timeline {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.ai-dyn-timeline-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.ai-dyn-timeline-head span,
+.ai-dyn-company {
+  color: var(--ai-muted);
+  font-size: 0.88rem;
+}
+
+.ai-dyn-contact {
+  text-align: center;
+  padding-bottom: 4rem;
+}
+
+.ai-dyn-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.ai-dyn-contact-links a {
+  color: var(--ai-muted);
+  text-decoration: none;
+}
+
+.ai-dyn-contact-links a:hover {
+  color: var(--ai-accent);
+}
+
+@media (max-width: 900px) {
+  .ai-dyn-hero,
+  .ai-dyn-skill-grid,
+  .ai-dyn-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-dyn-nav-links {
+    display: none;
+  }
+}

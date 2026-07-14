@@ -22,6 +22,7 @@ import PortfolioBuilder from './pages/PortfolioBuilder';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import AnalyticsPage from './pages/AnalyticsPage';
+import AiCreate from './pages/AiCreate';
 import PublicPortfolio from './pages/PublicPortfolio';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
@@ -71,6 +72,7 @@ export default function App() {
               <Route element={<MainLayout />}>
                 <Route path="/home" element={<Home />} />
                 <Route path="/templates" element={<Templates />} />
+                <Route path="/create" element={<AiCreate />} />
                 <Route path="/templates/:templateId/preview" element={<TemplatePreview />} />
                 <Route path="/my-templates" element={<MyTemplates />} />
                 <Route path="/my-templates/:templateId" element={<SavedTemplateView />} />

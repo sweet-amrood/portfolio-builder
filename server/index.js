@@ -10,6 +10,7 @@ import profileRoutes from './routes/profile.js';
 import portfolioRoutes from './routes/portfolio.js';
 import messageRoutes from './routes/messages.js';
 import analyticsRoutes from './routes/analytics.js';
+import aiRoutes from './routes/ai.js';
 import { verifyEmailTransport } from './utils/email.js';
 import { initSocket } from './socket.js';
 
@@ -35,6 +36,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/ai', aiRoutes);
 
 const start = async () => {
   const mongoUri = process.env.MONGODB_URI;

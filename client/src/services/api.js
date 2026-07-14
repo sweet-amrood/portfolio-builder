@@ -64,4 +64,9 @@ export const analyticsAPI = {
   track: (slug, payload) => api.post(`/analytics/track/${encodeURIComponent(slug)}`, payload),
 };
 
+export const aiAPI = {
+  generate: (payload) => api.post('/ai/generate', payload),
+  getProvider: () => api.get('/ai/provider'),
+};
+
 export default api;

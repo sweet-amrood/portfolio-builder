@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TEMPLATE_TAGS, TEMPLATES } from '../data/templates';
 import TemplateThumbnail from '../components/TemplateThumbnail';
@@ -19,8 +20,8 @@ export default function Templates() {
 
   const filtered =
     activeTag === 'All'
-      ? TEMPLATES
-      : TEMPLATES.filter((t) => t.tags.includes(activeTag));
+      ? TEMPLATES.filter((t) => !t.ai)
+      : TEMPLATES.filter((t) => !t.ai && t.tags.includes(activeTag));
 
   return (
     <div className="templates-page">
@@ -32,6 +33,9 @@ export default function Templates() {
         >
           <h1>Choose a Template</h1>
           <p>Pick a starting point for your portfolio. Preview any template or jump straight into the editor.</p>
+          <Link to="/create" className="templates-ai-cta">
+            Or build with AI →
+          </Link>
         </motion.div>
       </div>
 
