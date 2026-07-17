@@ -1,7 +1,7 @@
+import { Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  HiSparkles,
   HiChartBarSquare,
   HiChatBubbleLeftRight,
   HiGlobeAlt,
@@ -12,6 +12,8 @@ import {
 } from 'react-icons/hi2';
 import BrandLogo from '../components/BrandLogo';
 import '../styles/home.css';
+
+const FuturisticHeroCanvas = lazy(() => import('../components/hero/FuturisticHeroCanvas'));
 
 const steps = [
   {
@@ -83,34 +85,141 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      <div className="home-page-bg" aria-hidden="true">
-        <span className="home-page-grid" />
-      </div>
+      <section className="home-hero-section home-hero-section--fullbleed">
+        <div className="home-hero-stage" aria-hidden="true">
+          <Suspense fallback={<div className="futuristic-hero-fallback futuristic-hero-fallback--full" />}>
+            <FuturisticHeroCanvas fullBleed />
+          </Suspense>
+        </div>
 
-      <section className="home-hero-section">
-        <div className="home-hero">
-        <motion.div
-          className="home-hero-copy"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          <span className="home-hero-badge">
-            <HiSparkles size={16} />
-            Portfolio builder for modern creators
-          </span>
+        <div className="home-hero-scrim" aria-hidden="true" />
 
-          <h1 className="home-hero-title">
-            Forge a portfolio that
-            <span className="gradient-text"> wins attention</span>
-          </h1>
+        <div className="home-hero home-hero--fullbleed">
+          <motion.div
+            className="home-hero-copy"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <BrandLogo size="lg" variant="full" showText={false} className="home-hero-brand" />
 
-          <p className="home-hero-desc">
-            PortfolioForge brings templates, a visual editor, live publishing, analytics,
-            and visitor chat together — so you can ship a professional site in minutes.
-          </p>
+            <h1 className="home-hero-title">
+              Forge a portfolio that
+              <span className="gradient-text"> wins attention</span>
+            </h1>
 
-          <div className="home-hero-actions">
+            <p className="home-hero-desc">
+              Templates, visual editing, live publishing, analytics, and visitor chat —
+              in one cinematic workspace.
+            </p>
+
+            <div className="home-hero-actions">
+              <motion.button
+                type="button"
+                className="btn-primary btn-large"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => navigate('/builder')}
+              >
+                Start Building
+                <HiArrowRight size={18} />
+              </motion.button>
+              <motion.button
+                type="button"
+                className="btn-secondary btn-large"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => navigate('/templates')}
+              >
+                Browse Templates
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="home-page-rest">
+        <div className="home-page-bg" aria-hidden="true">
+          <span className="home-page-grid" />
+        </div>
+
+        <section className="home-steps">
+          <motion.div
+            className="home-section-head"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2>From idea to live site in four steps</h2>
+            <p>A streamlined workflow designed for speed without sacrificing quality.</p>
+          </motion.div>
+
+          <div className="home-steps-grid">
+            {steps.map((item, i) => (
+              <motion.article
+                key={item.step}
+                className="home-step-card"
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+              >
+                <span className="home-step-num">{item.step}</span>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </motion.article>
+            ))}
+          </div>
+        </section>
+
+        <section className="home-features">
+          <motion.div
+            className="home-section-head"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2>Everything built in</h2>
+            <p>Not just templates — a complete platform to launch and grow your presence.</p>
+          </motion.div>
+
+          <div className="home-features-grid">
+            {features.map((feature, i) => {
+              const Icon = feature.icon;
+              return (
+                <motion.article
+                  key={feature.title}
+                  className="home-feature-card"
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                >
+                  <span className="home-feature-icon">
+                    <Icon size={22} />
+                  </span>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.desc}</p>
+                </motion.article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="home-cta">
+          <motion.div
+            className="home-cta-card"
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <BrandLogo size="lg" variant="full" className="home-cta-logo" />
+            <h2>Ready to forge your portfolio?</h2>
+            <p>Open the builder, pick a template, and publish your first live page today.</p>
             <motion.button
               type="button"
               className="btn-primary btn-large"
@@ -118,163 +227,11 @@ export default function Home() {
               whileTap={{ scale: 0.98 }}
               onClick={() => navigate('/builder')}
             >
-              Start Building
-              <HiArrowRight size={18} />
+              Create Your Portfolio
             </motion.button>
-            <motion.button
-              type="button"
-              className="btn-secondary btn-large"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => navigate('/templates')}
-            >
-              Browse Templates
-            </motion.button>
-          </div>
-
-          <div className="home-hero-trust">
-            <BrandLogo size="sm" showText={false} />
-            <p>Trusted by developers, designers, and freelancers building their next opportunity.</p>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="home-hero-visual"
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-        >
-          <div className="home-preview">
-            <div className="home-preview-bar">
-              <span className="dot red" />
-              <span className="dot yellow" />
-              <span className="dot green" />
-              <span className="home-preview-url">portfolioforge.app/yourname</span>
-            </div>
-            <div className="home-preview-body">
-              <aside className="home-preview-sidebar">
-                <span className="home-preview-nav-item home-preview-nav-item--active">Hero</span>
-                <span className="home-preview-nav-item">About</span>
-                <span className="home-preview-nav-item">Projects</span>
-                <span className="home-preview-nav-item">Skills</span>
-                <span className="home-preview-nav-item">Contact</span>
-              </aside>
-              <div className="home-preview-canvas">
-                <div className="home-preview-hero-block">
-                  <span className="home-preview-chip">Available for work</span>
-                  <strong>Your Name</strong>
-                  <p>Full-stack developer crafting fast, polished web experiences.</p>
-                </div>
-                <div className="home-preview-cards">
-                  <div className="home-preview-card" />
-                  <div className="home-preview-card" />
-                  <div className="home-preview-card" />
-                </div>
-              </div>
-              <aside className="home-preview-inspector">
-                <span>Theme</span>
-                <div className="home-preview-swatches">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-                <span>Publish</span>
-                <div className="home-preview-publish">Live</div>
-              </aside>
-            </div>
-          </div>
-        </motion.div>
-        </div>
-      </section>
-
-      <section className="home-steps">
-        <motion.div
-          className="home-section-head"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2>From idea to live site in four steps</h2>
-          <p>A streamlined workflow designed for speed without sacrificing quality.</p>
-        </motion.div>
-
-        <div className="home-steps-grid">
-          {steps.map((item, i) => (
-            <motion.article
-              key={item.step}
-              className="home-step-card"
-              custom={i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-            >
-              <span className="home-step-num">{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section className="home-features">
-        <motion.div
-          className="home-section-head"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2>Everything built in</h2>
-          <p>Not just templates — a complete platform to launch and grow your presence.</p>
-        </motion.div>
-
-        <div className="home-features-grid">
-          {features.map((feature, i) => {
-            const Icon = feature.icon;
-            return (
-              <motion.article
-                key={feature.title}
-                className="home-feature-card"
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
-              >
-                <span className="home-feature-icon">
-                  <Icon size={22} />
-                </span>
-                <h3>{feature.title}</h3>
-                <p>{feature.desc}</p>
-              </motion.article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="home-cta">
-        <motion.div
-          className="home-cta-card"
-          initial={{ opacity: 0, scale: 0.97 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <BrandLogo size="lg" variant="full" className="home-cta-logo" />
-          <h2>Ready to forge your portfolio?</h2>
-          <p>Open the builder, pick a template, and publish your first live page today.</p>
-          <motion.button
-            type="button"
-            className="btn-primary btn-large"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => navigate('/builder')}
-          >
-            Create Your Portfolio
-          </motion.button>
-        </motion.div>
-      </section>
+          </motion.div>
+        </section>
+      </div>
     </div>
   );
 }
