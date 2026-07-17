@@ -1,6 +1,8 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   HiChartBarSquare,
   HiChatBubbleLeftRight,
@@ -11,9 +13,12 @@ import {
   HiArrowRight,
 } from 'react-icons/hi2';
 import BrandLogo from '../components/BrandLogo';
+import useLenis from '../hooks/useLenis';
 import '../styles/home.css';
 
 const FuturisticHeroCanvas = lazy(() => import('../components/hero/FuturisticHeroCanvas'));
+
+gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
   {
@@ -83,24 +88,76 @@ const fadeUp = {
 export default function Home() {
   const navigate = useNavigate();
 
+  useLenis(true);
+
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return undefined;
+
+    const ctx = gsap.context(() => {
+      const heroCopy = document.querySelector('.home-hero-copy');
+      if (heroCopy) {
+        gsap.set(heroCopy, { autoAlpha: 1, y: 0 });
+      }
+
+      gsap.fromTo(
+        '.home-hero-copy',
+        { autoAlpha: 1, y: 0 },
+        {
+          autoAlpha: 0,
+          y: -56,
+          ease: 'none',
+          overwrite: 'auto',
+          scrollTrigger: {
+            trigger: '.home-hero-section--fullbleed',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+
+      gsap.fromTo(
+        '.home-page-rest',
+        { y: 56 },
+        {
+          y: 0,
+          ease: 'none',
+          overwrite: 'auto',
+          scrollTrigger: {
+            trigger: '.home-hero-section--fullbleed',
+            start: '20% top',
+            end: 'bottom top',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+
+      ScrollTrigger.refresh();
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  const handleCardSelect = (templateId) => {
+    navigate('/builder', { state: { templateId } });
+  };
+
   return (
     <div className="home-page">
       <section className="home-hero-section home-hero-section--fullbleed">
         <div className="home-hero-stage" aria-hidden="true">
           <Suspense fallback={<div className="futuristic-hero-fallback futuristic-hero-fallback--full" />}>
-            <FuturisticHeroCanvas fullBleed />
+            <FuturisticHeroCanvas fullBleed onCardSelect={handleCardSelect} />
           </Suspense>
         </div>
 
         <div className="home-hero-scrim" aria-hidden="true" />
 
         <div className="home-hero home-hero--fullbleed">
-          <motion.div
-            className="home-hero-copy"
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
+          <div className="home-hero-copy">
             <BrandLogo size="lg" variant="full" showText={false} className="home-hero-brand" />
 
             <h1 className="home-hero-title">
@@ -112,6 +169,8 @@ export default function Home() {
               Templates, visual editing, live publishing, analytics, and visitor chat —
               in one cinematic workspace.
             </p>
+
+            <p className="home-hero-hint">Hover the live templates on the right · click to open the builder</p>
 
             <div className="home-hero-actions">
               <motion.button
@@ -134,7 +193,7 @@ export default function Home() {
                 Browse Templates
               </motion.button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

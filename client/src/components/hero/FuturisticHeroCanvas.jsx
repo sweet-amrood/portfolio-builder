@@ -1,9 +1,14 @@
 import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { ContactShadows, Float, Sparkles } from '@react-three/drei';
+import { ContactShadows, Float, Html, Sparkles } from '@react-three/drei';
+import { Bloom, ChromaticAberration, EffectComposer } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { HERO_PORTFOLIO_CARDS, getHeroCardTemplate } from './heroCardConfig';
+import { createTemplateTexture } from './createTemplateTexture';
+import './holoShader';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,6 +27,7 @@ function useHeroPointer(containerRef) {
     active: false,
   });
   const smooth = useRef({ x: 0, y: 0, vx: 0, vy: 0 });
+  const cardHover = useRef(0);
 
   useEffect(() => {
     const update = (clientX, clientY, active) => {
@@ -76,9 +82,41 @@ function useHeroPointer(containerRef) {
     smooth.current.y += (pointer.current.y - smooth.current.y) * lerp;
     smooth.current.vx = (smooth.current.x - prevX) / Math.max(delta, 0.001);
     smooth.current.vy = (smooth.current.y - prevY) / Math.max(delta, 0.001);
+
+    const el = containerRef.current;
+    if (el) {
+      const inCardZone = pointer.current.active && pointer.current.px > 0.38;
+      el.classList.toggle('futuristic-hero-canvas--card-hover', inCardZone && cardHover.current > 0.25);
+    }
   });
 
-  return { pointer, smooth };
+  return { pointer, smooth, cardHover };
+}
+
+function mapPointerToPage(px, fullBleed) {
+  const zoneStart = fullBleed ? 0.4 : 0.22;
+  const zoneEnd = fullBleed ? 0.94 : 0.9;
+  const t = THREE.MathUtils.clamp((px - zoneStart) / (zoneEnd - zoneStart), 0, 1);
+  return t * 2;
+}
+
+function CinematicEffects() {
+  return (
+    <EffectComposer enableNormalPass={false} multisampling={0}>
+      <Bloom
+        intensity={0.55}
+        luminanceThreshold={0.35}
+        luminanceSmoothing={0.9}
+        mipmapBlur
+      />
+      <ChromaticAberration
+        blendFunction={BlendFunction.NORMAL}
+        offset={new THREE.Vector2(0.0004, 0.0004)}
+        radialModulation
+        modulationOffset={0.15}
+      />
+    </EffectComposer>
+  );
 }
 
 function OrbitingParticles({ count = 160, mouse }) {
@@ -168,256 +206,181 @@ function HoloRings({ mouse }) {
   );
 }
 
-function HeroFace({ activeRef, mouse }) {
-  const glow = useRef();
-  const bars = useRef([]);
+function TemplateFace({ template, pageSmooth, index }) {
+  const texture = useMemo(() => createTemplateTexture(template), [template]);
+  const screen = useRef();
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    const active = activeRef.current;
-    if (glow.current) {
-      glow.current.emissiveIntensity = (active ? 1.6 : 0.55) + Math.sin(t * 2.2) * 0.2;
-      glow.current.opacity = active ? 0.9 : 0.35;
-    }
-    bars.current.forEach((mesh, i) => {
-      if (!mesh) return;
-      const wave = 0.35 + (Math.sin(t * 2.4 + i) * 0.5 + 0.5) * 0.55 + Math.abs(mouse.current.x) * 0.1;
-      mesh.scale.y = wave;
-      mesh.position.y = -0.22 + wave * 0.28;
-    });
-  });
+  useEffect(() => () => texture.dispose(), [texture]);
 
-  return (
-    <group position={[0, 0, 0.025]}>
-      <mesh position={[-0.72, 0.18, 0]}>
-        <circleGeometry args={[0.28, 32]} />
-        <meshStandardMaterial ref={glow} color="#22d3ee" emissive="#0891b2" emissiveIntensity={1.2} transparent opacity={0.85} />
-      </mesh>
-      <mesh position={[-0.18, 0.34, 0]}>
-        <planeGeometry args={[0.9, 0.16]} />
-        <meshStandardMaterial color="#e2e8f0" emissive="#38bdf8" emissiveIntensity={0.45} transparent opacity={0.85} />
-      </mesh>
-      <mesh position={[-0.1, 0.12, 0]}>
-        <planeGeometry args={[1.05, 0.1]} />
-        <meshStandardMaterial color="#94a3b8" emissive="#0ea5e9" emissiveIntensity={0.2} transparent opacity={0.5} />
-      </mesh>
-      <mesh position={[-0.32, -0.12, 0]}>
-        <planeGeometry args={[0.55, 0.14]} />
-        <meshStandardMaterial color="#67e8f9" emissive="#06b6d4" emissiveIntensity={1.1} transparent opacity={0.8} />
-      </mesh>
-      {[0.35, 0.55, 0.75].map((x, i) => (
-        <mesh
-          key={x}
-          ref={(el) => {
-            bars.current[i] = el;
-          }}
-          position={[x, -0.22, 0]}
-        >
-          <boxGeometry args={[0.14, 0.55, 0.01]} />
-          <meshStandardMaterial color="#a5f3fc" emissive="#22d3ee" emissiveIntensity={1.05} transparent opacity={0.8} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function WorkFace({ activeRef, mouse }) {
-  const cards = useRef([]);
-
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    const active = activeRef.current;
-    cards.current.forEach((mesh, i) => {
-      if (!mesh) return;
-      mesh.position.y = 0.05 + Math.sin(t * 1.8 + i * 1.1) * 0.03 * (active ? 1 : 0.3);
-      mesh.material.emissiveIntensity = (active ? 0.85 : 0.25) + Math.abs(mouse.current.y) * 0.2;
-      mesh.material.opacity = active ? 0.88 : 0.3;
-    });
-  });
-
-  const items = [
-    [-0.7, 0.15],
-    [-0.05, 0.15],
-    [0.6, 0.15],
-    [-0.7, -0.35],
-    [-0.05, -0.35],
-    [0.6, -0.35],
-  ];
-
-  return (
-    <group position={[0, 0, 0.025]}>
-      <mesh position={[0, 0.48, 0]}>
-        <planeGeometry args={[1.6, 0.12]} />
-        <meshStandardMaterial color="#e2e8f0" emissive="#818cf8" emissiveIntensity={0.45} transparent opacity={0.75} />
-      </mesh>
-      {items.map(([x, y], i) => (
-        <mesh
-          key={`${x}-${y}`}
-          ref={(el) => {
-            cards.current[i] = el;
-          }}
-          position={[x, y, 0]}
-        >
-          <planeGeometry args={[0.55, 0.38]} />
-          <meshStandardMaterial color="#0f172a" emissive="#4f46e5" emissiveIntensity={0.7} transparent opacity={0.8} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function AboutFace({ activeRef, mouse }) {
-  const lines = useRef([]);
-  const avatar = useRef();
-
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    const active = activeRef.current;
-    if (avatar.current) {
-      avatar.current.emissiveIntensity = active ? 1.3 : 0.4;
-      avatar.current.opacity = active ? 0.85 : 0.3;
-    }
-    lines.current.forEach((mesh, i) => {
-      if (!mesh) return;
-      const pulse = 0.55 + Math.sin(t * 2 + i * 0.6) * 0.08 + mouse.current.x * 0.04;
-      mesh.scale.x = pulse * (1.1 - i * 0.12);
-      mesh.material.opacity = (active ? 0.75 : 0.28) * pulse;
-    });
-  });
-
-  return (
-    <group position={[0, 0, 0.025]}>
-      <mesh position={[-0.75, 0.2, 0]}>
-        <circleGeometry args={[0.32, 32]} />
-        <meshStandardMaterial ref={avatar} color="#38bdf8" emissive="#0ea5e9" emissiveIntensity={1} transparent opacity={0.7} />
-      </mesh>
-      {[0.42, 0.22, 0.02, -0.18, -0.38].map((y, i) => (
-        <mesh
-          key={y}
-          ref={(el) => {
-            lines.current[i] = el;
-          }}
-          position={[0.35, y, 0]}
-        >
-          <planeGeometry args={[1.2, 0.09]} />
-          <meshStandardMaterial color="#cbd5e1" emissive="#22d3ee" emissiveIntensity={0.35} transparent opacity={0.7} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function PortfolioPage({ kind, pageSmooth, index, mouse }) {
-  const activeRef = useRef(false);
   useFrame(() => {
-    activeRef.current = Math.abs(pageSmooth.current - index) < 0.55;
+    if (!screen.current) return;
+    const active = Math.abs(pageSmooth.current - index) < 0.55;
+    screen.current.opacity = active ? 1 : 0.82;
   });
 
   return (
-    <group>
-      {kind === 'hero' ? <HeroFace activeRef={activeRef} mouse={mouse} /> : null}
-      {kind === 'work' ? <WorkFace activeRef={activeRef} mouse={mouse} /> : null}
-      {kind === 'about' ? <AboutFace activeRef={activeRef} mouse={mouse} /> : null}
+    <group position={[0, -0.02, DEPTH * 0.72]}>
+      <mesh>
+        <planeGeometry args={[CARD_W - 0.14, CARD_H - 0.22]} />
+        <meshBasicMaterial
+          ref={screen}
+          map={texture}
+          transparent
+          opacity={1}
+          toneMapped={false}
+        />
+      </mesh>
     </group>
   );
 }
 
-function HoloCardShell({ children, intensity = 1 }) {
+function HoloEdgeOverlay({ pageSmooth, index, accent = '#67e8f9' }) {
+  const edge = useRef();
+  const scan = useRef();
+  const color = useMemo(() => new THREE.Color(accent), [accent]);
+
+  useFrame((state) => {
+    const active = Math.abs(pageSmooth.current - index) < 0.55;
+    const t = state.clock.elapsedTime;
+    if (edge.current) {
+      edge.current.uTime = t;
+      edge.current.uIntensity = active ? 0.55 : 0.22;
+      edge.current.uColor = color;
+    }
+    if (scan.current) {
+      scan.current.uTime = t;
+      scan.current.uOpacity = active ? 0.12 : 0.04;
+    }
+  });
+
+  return (
+    <group position={[0, 0, DEPTH * 0.76]}>
+      <mesh>
+        <planeGeometry args={[CARD_W + 0.02, CARD_H + 0.02]} />
+        <holoEdgeMaterial ref={edge} transparent depthWrite={false} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh position={[0, 0, 0.002]}>
+        <planeGeometry args={[CARD_W - 0.08, CARD_H - 0.08]} />
+        <holoScanMaterial ref={scan} transparent depthWrite={false} side={THREE.DoubleSide} />
+      </mesh>
+    </group>
+  );
+}
+
+function HoloCardShell({ children, template, pageSmooth, index, intensity = 1 }) {
   const rim = useRef();
+  const accent = template.accent || template.colors?.[1] || '#67e8f9';
 
   useFrame((state) => {
     if (!rim.current) return;
-    rim.current.emissiveIntensity = 0.8 * intensity + Math.sin(state.clock.elapsedTime * 2.6) * 0.25;
+    const active = Math.abs(pageSmooth.current - index) < 0.55;
+    rim.current.emissiveIntensity = (active ? 0.55 : 0.22) * intensity + Math.sin(state.clock.elapsedTime * 2.6) * 0.08;
+    rim.current.opacity = active ? 0.12 : 0.05;
   });
 
   return (
     <group>
       <mesh castShadow>
         <boxGeometry args={[CARD_W, CARD_H, DEPTH]} />
-        <meshStandardMaterial color="#07101d" metalness={0.75} roughness={0.28} transparent opacity={0.92} />
+        <meshStandardMaterial color="#0b1220" metalness={0.75} roughness={0.3} transparent opacity={0.96} />
       </mesh>
       <mesh position={[0, 0, DEPTH * 0.55]}>
         <planeGeometry args={[CARD_W - 0.08, CARD_H - 0.08]} />
-        <meshStandardMaterial color="#020617" metalness={0.35} roughness={0.4} transparent opacity={0.88} />
+        <meshStandardMaterial color="#020617" metalness={0.2} roughness={0.55} transparent opacity={0.95} />
       </mesh>
       <mesh position={[0, CARD_H * 0.5 - 0.08, DEPTH * 0.62]}>
         <planeGeometry args={[CARD_W - 0.16, 0.08]} />
-        <meshStandardMaterial color="#111827" metalness={0.5} roughness={0.35} emissive="#164e63" emissiveIntensity={0.3} />
+        <meshStandardMaterial color="#111827" metalness={0.4} roughness={0.4} />
       </mesh>
-      <mesh position={[-CARD_W * 0.38, CARD_H * 0.5 - 0.08, DEPTH * 0.66]}>
-        <circleGeometry args={[0.025, 16]} />
-        <meshStandardMaterial color="#f87171" emissive="#ef4444" emissiveIntensity={0.8} />
-      </mesh>
-      <mesh position={[-CARD_W * 0.32, CARD_H * 0.5 - 0.08, DEPTH * 0.66]}>
-        <circleGeometry args={[0.025, 16]} />
-        <meshStandardMaterial color="#fbbf24" emissive="#f59e0b" emissiveIntensity={0.8} />
-      </mesh>
-      <mesh position={[-CARD_W * 0.26, CARD_H * 0.5 - 0.08, DEPTH * 0.66]}>
-        <circleGeometry args={[0.025, 16]} />
-        <meshStandardMaterial color="#4ade80" emissive="#22c55e" emissiveIntensity={0.8} />
-      </mesh>
-      <mesh position={[0, 0, DEPTH * 0.7]}>
+      {['#f87171', '#fbbf24', '#4ade80'].map((color, i) => (
+        <mesh key={color} position={[-CARD_W * 0.38 + i * 0.06, CARD_H * 0.5 - 0.08, DEPTH * 0.66]}>
+          <circleGeometry args={[0.025, 16]} />
+          <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.55} />
+        </mesh>
+      ))}
+      <TemplateFace template={template} pageSmooth={pageSmooth} index={index} />
+      <HoloEdgeOverlay pageSmooth={pageSmooth} index={index} accent={accent} />
+      <mesh position={[0, 0, DEPTH * 0.78]}>
         <planeGeometry args={[CARD_W + 0.04, CARD_H + 0.04]} />
         <meshStandardMaterial
           ref={rim}
-          color="#67e8f9"
-          emissive="#22d3ee"
-          emissiveIntensity={0.9}
+          color={accent}
+          emissive={accent}
+          emissiveIntensity={0.4}
           transparent
-          opacity={0.14}
+          opacity={0.08}
           side={THREE.DoubleSide}
         />
-      </mesh>
-      <mesh position={[0, 0, -DEPTH * 0.55]}>
-        <planeGeometry args={[CARD_W - 0.1, CARD_H - 0.1]} />
-        <meshStandardMaterial color="#0ea5e9" emissive="#0891b2" emissiveIntensity={0.55 * intensity} transparent opacity={0.22} side={THREE.DoubleSide} />
       </mesh>
       {children}
     </group>
   );
 }
 
-function ScanLine({ mouse, pageSmooth, index }) {
+function ScanLine({ mouse, pageSmooth, index, accent = '#a5f3fc' }) {
   const line = useRef();
   useFrame(() => {
     if (!line.current) return;
     const active = Math.abs(pageSmooth.current - index) < 0.55;
     line.current.position.y = THREE.MathUtils.lerp(line.current.position.y, mouse.current.y * -0.55, 0.12);
-    line.current.material.opacity = active ? 0.45 : 0.12;
+    line.current.material.opacity = active ? 0.18 : 0.04;
   });
   return (
     <mesh ref={line} position={[0, 0, 0.08]}>
-      <planeGeometry args={[CARD_W - 0.2, 0.035]} />
-      <meshBasicMaterial color="#a5f3fc" transparent opacity={0.35} depthWrite={false} />
+      <planeGeometry args={[CARD_W - 0.2, 0.028]} />
+      <meshBasicMaterial color={accent} transparent opacity={0.12} depthWrite={false} />
     </mesh>
   );
 }
 
-function mapPointerToPage(px, fullBleed) {
-  const zoneStart = fullBleed ? 0.4 : 0.22;
-  const zoneEnd = fullBleed ? 0.94 : 0.9;
-  const t = THREE.MathUtils.clamp((px - zoneStart) / (zoneEnd - zoneStart), 0, 1);
-  return t * 2;
+function CardClickBridge({ pointer, fullBleed, pages, onCardSelect, containerRef }) {
+  useEffect(() => {
+    if (!onCardSelect) return undefined;
+
+    const onClick = (event) => {
+      if (!pointer.current.active) return;
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect?.width) return;
+
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!inside) return;
+
+      const px = (event.clientX - rect.left) / rect.width;
+      const index = Math.round(THREE.MathUtils.clamp(mapPointerToPage(px, fullBleed), 0, pages.length - 1));
+      onCardSelect(pages[index].templateId);
+    };
+
+    window.addEventListener('click', onClick);
+    return () => window.removeEventListener('click', onClick);
+  }, [pointer, fullBleed, pages, onCardSelect, containerRef]);
+
+  return null;
 }
 
-function HolographicPortfolioCard({ mouse, pointer, offsetX = 0, fullBleed = false }) {
+function HolographicPortfolioCard({
+  mouse,
+  pointer,
+  cardHover,
+  offsetX = 0,
+  fullBleed = false,
+  onCardSelect,
+  containerRef,
+}) {
   const root = useRef();
   const cards = useRef([]);
-  const labels = useRef([]);
-  const hit = useRef();
-  const hover = useRef(0);
-  const page = useRef(1);
   const pageSmooth = useRef(1);
-  const raycaster = useMemo(() => new THREE.Raycaster(), []);
-  const ndc = useMemo(() => new THREE.Vector2(), []);
-  const { camera } = useThree();
+  const hover = useRef(0);
 
   const pages = useMemo(
-    () => [
-      { kind: 'hero', label: 'Hero' },
-      { kind: 'work', label: 'Work' },
-      { kind: 'about', label: 'About' },
-    ],
+    () =>
+      HERO_PORTFOLIO_CARDS.map((card) => ({
+        ...card,
+        template: getHeroCardTemplate(card.templateId),
+      })),
     []
   );
 
@@ -428,16 +391,17 @@ function HolographicPortfolioCard({ mouse, pointer, offsetX = 0, fullBleed = fal
     const my = mouse.current.y;
     const ease = 1 - Math.exp(-4.4 * delta);
 
-    ndc.set(pointer.current.ndcX, pointer.current.ndcY);
-    raycaster.setFromCamera(ndc, camera);
-    const hits = hit.current ? raycaster.intersectObject(hit.current, true) : [];
-    hover.current = THREE.MathUtils.lerp(hover.current, hits.length ? 1 : 0, 1 - Math.exp(-6 * delta));
+    const inCardZone =
+      pointer.current.active &&
+      pointer.current.px > (fullBleed ? 0.38 : 0.22) &&
+      pointer.current.px < 0.96;
+    hover.current = THREE.MathUtils.lerp(hover.current, inCardZone ? 1 : 0, 1 - Math.exp(-6 * delta));
+    cardHover.current = hover.current;
 
     const mapped = pointer.current.active
       ? mapPointerToPage(pointer.current.px, fullBleed)
       : pageSmooth.current;
-    page.current = mapped;
-    pageSmooth.current = THREE.MathUtils.lerp(pageSmooth.current, page.current, ease);
+    pageSmooth.current = THREE.MathUtils.lerp(pageSmooth.current, mapped, ease);
 
     root.current.rotation.y = THREE.MathUtils.lerp(root.current.rotation.y, mx * 0.55, ease);
     root.current.rotation.x = THREE.MathUtils.lerp(root.current.rotation.x, my * -0.35 + hover.current * -0.06, ease);
@@ -456,66 +420,60 @@ function HolographicPortfolioCard({ mouse, pointer, offsetX = 0, fullBleed = fal
       const dist = Math.abs(pageSmooth.current - i);
       const focus = Math.max(0, 1 - dist);
       const side = i - pageSmooth.current;
-      const targetX = side * 0.55;
-      const targetZ = focus * 0.55 - dist * 0.35;
-      const targetY = focus * 0.08 + Math.sin(t * 1.3 + i) * 0.015;
-      const targetRotY = side * -0.38;
-      const targetRotX = dist * 0.08;
-      card.position.x = THREE.MathUtils.lerp(card.position.x, targetX, ease);
-      card.position.y = THREE.MathUtils.lerp(card.position.y, targetY, ease);
-      card.position.z = THREE.MathUtils.lerp(card.position.z, targetZ, ease);
-      card.rotation.y = THREE.MathUtils.lerp(card.rotation.y, targetRotY, ease);
-      card.rotation.x = THREE.MathUtils.lerp(card.rotation.x, targetRotX, ease);
+      card.position.x = THREE.MathUtils.lerp(card.position.x, side * 0.55, ease);
+      card.position.y = THREE.MathUtils.lerp(card.position.y, focus * 0.08 + Math.sin(t * 1.3 + i) * 0.015, ease);
+      card.position.z = THREE.MathUtils.lerp(card.position.z, focus * 0.55 - dist * 0.35, ease);
+      card.rotation.y = THREE.MathUtils.lerp(card.rotation.y, side * -0.38, ease);
+      card.rotation.x = THREE.MathUtils.lerp(card.rotation.x, dist * 0.08, ease);
       card.scale.setScalar(THREE.MathUtils.lerp(card.scale.x, 0.88 + focus * 0.14, ease));
-    });
-
-    labels.current.forEach((label, i) => {
-      if (!label) return;
-      const focus = Math.max(0, 1 - Math.abs(pageSmooth.current - i));
-      label.material.opacity = 0.2 + focus * 0.75;
-      label.position.y = -1.05 + focus * 0.04;
     });
   });
 
   return (
-    <Float speed={1.15} rotationIntensity={0.1} floatIntensity={0.22}>
-      <group ref={root} position={[offsetX, 0.05, 0]}>
-        <mesh ref={hit} visible={false} position={[0, 0, 0.2]}>
-          <boxGeometry args={[3.4, 2.4, 2]} />
-        </mesh>
-
-        {pages.map((pageItem, i) => (
-          <group
-            key={pageItem.kind}
-            ref={(el) => {
-              cards.current[i] = el;
-            }}
-            position={[(i - 1) * 0.55, 0, -i * 0.2]}
-          >
-            <HoloCardShell intensity={1}>
-              <PortfolioPage kind={pageItem.kind} pageSmooth={pageSmooth} index={i} mouse={mouse} />
-              <ScanLine mouse={mouse} pageSmooth={pageSmooth} index={i} />
-            </HoloCardShell>
-          </group>
-        ))}
-
-        {pages.map((pageItem, i) => (
-          <mesh
-            key={`label-${pageItem.kind}`}
-            ref={(el) => {
-              labels.current[i] = el;
-            }}
-            position={[(i - 1) * 0.72, -1.05, 0.6]}
-          >
-            <planeGeometry args={[0.55, 0.12]} />
-            <meshBasicMaterial color="#67e8f9" transparent opacity={0.45} depthWrite={false} />
-          </mesh>
-        ))}
-
-        <pointLight position={[0, 0.8, 1.4]} intensity={1.4} color="#67e8f9" distance={5} />
-        <pointLight position={[1.2, -0.2, 0.8]} intensity={0.55} color="#818cf8" distance={4} />
-      </group>
-    </Float>
+    <>
+      <CardClickBridge
+        pointer={pointer}
+        fullBleed={fullBleed}
+        pages={pages}
+        onCardSelect={onCardSelect}
+        containerRef={containerRef}
+      />
+      <Float speed={1.15} rotationIntensity={0.1} floatIntensity={0.22}>
+        <group ref={root} position={[offsetX, 0.05, 0]}>
+          {pages.map((pageItem, i) => (
+            <group
+              key={pageItem.templateId}
+              ref={(el) => {
+                cards.current[i] = el;
+              }}
+              position={[(i - 1) * 0.55, 0, -i * 0.2]}
+            >
+              <HoloCardShell template={pageItem.template} pageSmooth={pageSmooth} index={i}>
+                <ScanLine
+                  mouse={mouse}
+                  pageSmooth={pageSmooth}
+                  index={i}
+                  accent={pageItem.template.accent || '#a5f3fc'}
+                />
+              </HoloCardShell>
+              <Html
+                center
+                distanceFactor={2.2}
+                position={[0, -CARD_H * 0.5 - 0.18, 0.58]}
+                style={{ pointerEvents: 'none' }}
+              >
+                <div className="hero-card-label">
+                  <strong>{pageItem.template.name}</strong>
+                  <span>{pageItem.label} · Click to edit</span>
+                </div>
+              </Html>
+            </group>
+          ))}
+          <pointLight position={[0, 0.8, 1.4]} intensity={1.4} color="#67e8f9" distance={5} />
+          <pointLight position={[1.2, -0.2, 0.8]} intensity={0.55} color="#818cf8" distance={4} />
+        </group>
+      </Float>
+    </>
   );
 }
 
@@ -625,8 +583,8 @@ function CameraRig({ mouse, scrollProxy, fullBleed, lookAtX }) {
   return null;
 }
 
-function SceneContent({ scrollProxy, fullBleed, containerRef }) {
-  const { pointer, smooth } = useHeroPointer(containerRef);
+function SceneContent({ scrollProxy, fullBleed, containerRef, onCardSelect }) {
+  const { pointer, smooth, cardHover } = useHeroPointer(containerRef);
   const cardOffset = fullBleed ? 1.25 : 0;
   const lookAtX = cardOffset * 0.65;
 
@@ -635,7 +593,15 @@ function SceneContent({ scrollProxy, fullBleed, containerRef }) {
       <CameraRig mouse={smooth} scrollProxy={scrollProxy} fullBleed={fullBleed} lookAtX={lookAtX} />
       <DynamicLights mouse={smooth} offsetX={cardOffset} />
       <CursorOrb pointer={pointer} lookAtX={lookAtX} />
-      <HolographicPortfolioCard mouse={smooth} pointer={pointer} offsetX={cardOffset} fullBleed={fullBleed} />
+      <HolographicPortfolioCard
+        mouse={smooth}
+        pointer={pointer}
+        cardHover={cardHover}
+        offsetX={cardOffset}
+        fullBleed={fullBleed}
+        onCardSelect={onCardSelect}
+        containerRef={containerRef}
+      />
       <group position={[cardOffset, 0, 0]}>
         <HoloRings mouse={smooth} />
         <OrbitingParticles count={fullBleed ? 190 : 150} mouse={smooth} />
@@ -646,11 +612,12 @@ function SceneContent({ scrollProxy, fullBleed, containerRef }) {
           <meshStandardMaterial color="#0a0f1e" emissive="#082f49" emissiveIntensity={0.22} roughness={0.9} metalness={0.1} />
         </mesh>
       </group>
+      <CinematicEffects />
     </>
   );
 }
 
-export default function FuturisticHeroCanvas({ className = '', fullBleed = false }) {
+export default function FuturisticHeroCanvas({ className = '', fullBleed = false, onCardSelect }) {
   const wrapRef = useRef(null);
   const cursorRef = useRef(null);
   const scrollProxy = useRef(0);
@@ -691,9 +658,9 @@ export default function FuturisticHeroCanvas({ className = '', fullBleed = false
 
       ScrollTrigger.create({
         trigger: fullBleed ? el.parentElement || el : el,
-        start: fullBleed ? 'top top' : 'top 70%',
+        start: 'top top',
         end: 'bottom top',
-        scrub: 0.65,
+        scrub: 0.75,
         onUpdate: (self) => {
           scrollProxy.current = self.progress;
         },
@@ -721,6 +688,7 @@ export default function FuturisticHeroCanvas({ className = '', fullBleed = false
       <Canvas
         dpr={[1, 1.75]}
         shadows
+        style={{ pointerEvents: 'none' }}
         camera={{
           position: fullBleed ? [-0.55, 1.1, 9] : [0, 1.2, 8],
           fov: fullBleed ? 46 : 42,
@@ -732,7 +700,12 @@ export default function FuturisticHeroCanvas({ className = '', fullBleed = false
         <color attach="background" args={['#0a0f1e']} />
         <fog attach="fog" args={['#0a0f1e', fullBleed ? 8 : 7, fullBleed ? 22 : 18]} />
         <Suspense fallback={null}>
-          <SceneContent scrollProxy={scrollProxy} fullBleed={fullBleed} containerRef={wrapRef} />
+          <SceneContent
+            scrollProxy={scrollProxy}
+            fullBleed={fullBleed}
+            containerRef={wrapRef}
+            onCardSelect={onCardSelect}
+          />
         </Suspense>
       </Canvas>
       <div

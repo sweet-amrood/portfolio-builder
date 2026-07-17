@@ -180,6 +180,7 @@
 .home-hero--fullbleed .home-hero-copy {
   max-width: 36rem;
   pointer-events: auto;
+  will-change: transform, opacity;
 }
 
 .home-hero-brand {
@@ -321,6 +322,54 @@
   border: none;
   box-shadow: none;
   background: var(--bg-primary);
+  pointer-events: none;
+}
+
+.futuristic-hero-canvas--card-hover {
+  cursor: pointer;
+}
+
+.home-hero-section--fullbleed .home-hero-stage {
+  pointer-events: none;
+}
+
+.hero-card-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.72);
+  border: 1px solid rgba(103, 232, 249, 0.28);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.hero-card-label strong {
+  color: #e0f2fe;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.hero-card-label span {
+  color: rgba(148, 163, 184, 0.9);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.home-hero-hint {
+  color: rgba(148, 163, 184, 0.88);
+  font-size: 0.84rem;
+  margin: -1.1rem 0 1.65rem;
+  max-width: 28rem;
+  letter-spacing: 0.01em;
+}
+
+.home-hero--fullbleed .home-hero-hint {
+  color: rgba(186, 230, 253, 0.75);
 }
 
 .futuristic-hero-canvas canvas {
