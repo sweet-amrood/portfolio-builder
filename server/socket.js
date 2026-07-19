@@ -7,9 +7,10 @@ import { verifyVisitorToken } from './utils/visitorToken.js';
 let io = null;
 
 export function initSocket(httpServer) {
+  const clientOrigin = (process.env.CLIENT_URL || 'http://localhost:5173').replace(/\/$/, '');
   io = new Server(httpServer, {
     cors: {
-      origin: process.env.CLIENT_URL || 'http://localhost:5173',
+      origin: clientOrigin,
       credentials: true,
     },
   });
