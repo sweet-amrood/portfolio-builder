@@ -88,5 +88,5 @@ export const prismDriftContent = {
     email: 'hello@example.com',
     buttonText: 'Send a message',
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

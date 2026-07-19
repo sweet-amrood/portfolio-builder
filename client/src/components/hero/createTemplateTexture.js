@@ -307,7 +307,7 @@ function drawGeneric(ctx, W, H, template, accent, bg) {
   grad.addColorStop(1, '#05080f');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
-  drawChrome(ctx, 24, 24, W - 48, H - 48, 'portfolioforge.app', '#111827');
+  drawChrome(ctx, 24, 24, W - 48, H - 48, 'Novafolio.app', '#111827');
   fillRound(ctx, 24, 60, W - 48, H - 84, 0, 'rgba(15,23,42,0.92)');
   ctx.fillStyle = '#f8fafc';
   ctx.font = '700 24px ui-sans-serif, system-ui, sans-serif';

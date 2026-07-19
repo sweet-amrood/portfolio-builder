@@ -34,7 +34,7 @@ export const devMinimalContent = {
       tech: ['TypeScript', 'Tailwind'],
     },
     {
-      title: 'PortfolioForge',
+      title: 'Novafolio',
       subtitle: 'Mobile-first portfolio builder with live preview.',
       tech: ['Vite', 'MongoDB'],
     },
@@ -78,5 +78,5 @@ export const devMinimalContent = {
     email: 'hello@example.com',
     buttonText: 'Send Message',
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

@@ -26,7 +26,7 @@ app.use(express.json({ limit: '25mb' }));
 app.use(cookieParser());
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'PortfolioForge API is running' });
+  res.json({ status: 'ok', message: 'Novafolio API is running' });
 });
 
 app.use('/api/auth', authRoutes);

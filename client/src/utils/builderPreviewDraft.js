@@ -1,5 +1,5 @@
-const DRAFT_PREFIX = 'portfolioforge-builder-preview-';
-const PUBLISHED_PREFIX = 'portfolioforge-published-';
+const DRAFT_PREFIX = 'Novafolio-builder-preview-';
+const PUBLISHED_PREFIX = 'Novafolio-published-';
 
 function storageKey(templateId) {
   return `${DRAFT_PREFIX}${templateId}`;

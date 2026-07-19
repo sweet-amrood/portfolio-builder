@@ -121,5 +121,5 @@ export const vscodeStudioContent = {
     email: 'hello@example.com',
     buttonText: 'Send Message',
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

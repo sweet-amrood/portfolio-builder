@@ -898,13 +898,22 @@ a:hover {
   flex-shrink: 0;
 }
 
-.brand-logo-mark,
-.brand-logo-icon,
-.brand-logo-image {
+.brand-logo-mark {
   display: block;
   flex-shrink: 0;
-  width: auto;
-  object-fit: contain;
+  width: 34px;
+  height: 34px;
+}
+
+.brand-logo--sm .brand-logo-mark {
+  width: 28px;
+  height: 28px;
+}
+
+.brand-logo--lg .brand-logo-mark,
+.brand-logo--full .brand-logo-mark {
+  width: 44px;
+  height: 44px;
 }
 
 .brand-logo--nav {
@@ -913,32 +922,14 @@ a:hover {
   max-height: 56px;
 }
 
-.brand-logo--nav .brand-logo-image,
-.brand-logo--nav .brand-logo-image--compact {
-  height: 100% !important;
-  width: auto !important;
-  max-width: none;
-  max-height: 100%;
-  object-fit: contain;
-  object-position: left center;
+.brand-logo--nav .brand-logo-mark {
+  width: 32px;
+  height: 32px;
 }
 
-.brand-logo-image--compact {
-  width: auto;
-  max-width: min(168px, 42vw);
-  object-fit: contain;
-}
-
-.brand-logo-image--full {
-  width: auto;
-  max-width: min(380px, 84vw);
-  border-radius: 12px;
-  filter: drop-shadow(0 10px 28px rgba(37, 99, 235, 0.22));
-}
-
-.auth-brand-logo.brand-logo--full .brand-logo-image--full {
-  max-width: min(420px, 88vw);
-  height: auto !important;
+.brand-logo--full .brand-logo-text {
+  font-size: clamp(1.55rem, 3.5vw, 2.15rem);
+  letter-spacing: -0.04em;
 }
 
 .brand-logo-text {
@@ -949,7 +940,7 @@ a:hover {
 }
 
 .brand-logo-accent {
-  background: linear-gradient(135deg, var(--accent), #06b6d4);
+  background: linear-gradient(135deg, #22d3ee, #67e8f9 55%, #a5f3fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -965,6 +956,11 @@ a:hover {
 
 .auth-brand-logo {
   justify-content: center;
+}
+
+.auth-brand-logo.brand-logo--full .brand-logo-mark {
+  width: 52px;
+  height: 52px;
 }
 
 .auth-brand .brand-tagline {

@@ -346,7 +346,7 @@ export function UniversalTemplateSection({ sectionId, c }) {
     return (
       <footer className="uni-section uni-footer" id="footer">
         <EditableText field="footer" section="footer" label="Footer text" as="span">
-          {typeof content.footer === 'string' ? content.footer : content.footer?.credit || 'Built with PortfolioForge'}
+          {typeof content.footer === 'string' ? content.footer : content.footer?.credit || 'Built with Novafolio'}
         </EditableText>
       </footer>
     );

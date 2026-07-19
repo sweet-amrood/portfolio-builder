@@ -86,5 +86,5 @@ export const sawadContent = {
     buttonText: 'Send Message',
     showBudget: true,
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

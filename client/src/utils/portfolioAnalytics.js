@@ -1,4 +1,4 @@
-const VISITOR_ID_KEY = 'portfolioforge-visitor-id';
+const VISITOR_ID_KEY = 'Novafolio-visitor-id';
 
 export function getVisitorId() {
   let id = sessionStorage.getItem(VISITOR_ID_KEY);
@@ -10,7 +10,7 @@ export function getVisitorId() {
 }
 
 function visitStorageKey(slug) {
-  return `portfolioforge-visit-tracked-${slug}`;
+  return `Novafolio-visit-tracked-${slug}`;
 }
 
 export function hasTrackedVisit(slug) {

@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const brandName = 'PortfolioForge';
+const brandName = 'Novafolio';
 const brandColor = '#6366f1';
 
 const getFromAddress = () => `"${brandName}" <${process.env.SMTP_USER}>`;

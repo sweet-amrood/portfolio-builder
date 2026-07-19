@@ -650,7 +650,7 @@ export default function PortfolioBuilder() {
                   <span className="dot yellow" />
                   <span className="dot green" />
                   <span className="canvas-url">
-                    {typeof window !== 'undefined' ? window.location.host : 'portfolioforge.app'}
+                    {typeof window !== 'undefined' ? window.location.host : 'Novafolio.app'}
                     {previewPortfolioPath}
                   </span>
                 </div>

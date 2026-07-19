@@ -93,5 +93,5 @@ export const developerClassicContent = {
     email: 'hello@example.com',
     buttonText: 'Send',
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

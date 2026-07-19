@@ -98,5 +98,5 @@ export const lumenBloomContent = {
     email: 'hello@example.com',
     buttonText: 'Say hello',
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

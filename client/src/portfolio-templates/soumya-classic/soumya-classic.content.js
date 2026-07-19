@@ -153,7 +153,7 @@ export const soumyaClassicContent = {
     ],
   },
   footer: {
-    credit: 'Built and Developed by PortfolioForge',
+    credit: 'Built and Developed by Novafolio',
     copyrightShort: 'PF',
   },
   links: {

@@ -92,5 +92,5 @@ export const midnightGoldContent = {
     email: 'hello@example.com',
     buttonText: 'Request consultation',
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

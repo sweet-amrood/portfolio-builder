@@ -56,8 +56,8 @@ export function showSystemNotification({ title, body, onClick }) {
   try {
     const notification = new Notification(title, {
       body,
-      icon: '/logo.png',
-      tag: 'portfolioforge-message',
+      icon: '/favicon.svg',
+      tag: 'Novafolio-message',
     });
     notification.onclick = () => {
       window.focus();

@@ -158,7 +158,7 @@ export default function Home() {
 
         <div className="home-hero home-hero--fullbleed">
           <div className="home-hero-copy">
-            <BrandLogo size="lg" variant="full" showText={false} className="home-hero-brand" />
+            <BrandLogo size="lg" variant="full" className="home-hero-brand" />
 
             <h1 className="home-hero-title">
               Forge a portfolio that

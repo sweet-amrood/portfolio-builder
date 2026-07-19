@@ -3,7 +3,7 @@ import { createEmptyMasterProfile } from '../constants/masterProfile';
 import { normalizeProfileFromApi } from './masterProfileMerge';
 import { countSkillItems } from './profileSkillUtils';
 
-const localKey = (userId) => `portfolioforge-master-profile-${userId || 'guest'}`;
+const localKey = (userId) => `Novafolio-master-profile-${userId || 'guest'}`;
 
 function mergeProfileSources(remote, local) {
   if (!local) return remote;

@@ -32,7 +32,7 @@ export default function AppFooter() {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} PortfolioForge. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Novafolio. All rights reserved.</p>
       </div>
     </footer>
   );

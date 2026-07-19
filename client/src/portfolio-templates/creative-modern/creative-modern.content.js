@@ -83,5 +83,5 @@ export const creativeModernContent = {
     directEmailLabel: 'Send me email directly',
   },
   projectsShowMore: 'Show More',
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

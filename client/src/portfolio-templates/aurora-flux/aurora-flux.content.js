@@ -93,5 +93,5 @@ export const auroraFluxContent = {
     email: 'hello@example.com',
     buttonText: 'Send message',
   },
-  footer: 'Built and Developed by PortfolioForge',
+  footer: 'Built and Developed by Novafolio',
 };

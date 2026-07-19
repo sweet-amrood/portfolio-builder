@@ -1,4 +1,4 @@
-# PortfolioForge — Portfolio Builder (MERN)
+# Novafolio — Portfolio Builder (MERN)
 
 A step-by-step portfolio builder platform built with MongoDB, Express, React, and Node.js.
 
