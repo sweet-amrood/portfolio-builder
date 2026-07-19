@@ -2231,18 +2231,6 @@ a:hover {
   max-width: 560px;
 }
 
-.templates-ai-cta {
-  display: inline-flex;
-  margin-top: 0.85rem;
-  color: #a5b4fc;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.templates-ai-cta:hover {
-  color: #c7d2fe;
-}
-
 .templates-tags {
   display: flex;
   flex-wrap: wrap;

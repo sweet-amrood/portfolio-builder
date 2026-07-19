@@ -8,7 +8,6 @@ import AuroraFluxTemplate from './aurora-flux';
 import LumenBloomTemplate from './lumen-bloom';
 import MidnightGoldTemplate from './midnight-gold';
 import PrismDriftTemplate from './prism-drift';
-import AiDynamicTemplate from './ai-dynamic';
 
 export const PORTFOLIO_TEMPLATES = {
   'dev-minimal': {
@@ -131,23 +130,10 @@ export const PORTFOLIO_TEMPLATES = {
     complexity: 'medium',
     maxThemes: 4,
   },
-  'ai-dynamic': {
-    id: 'ai-dynamic',
-    name: 'AI Studio',
-    description: 'Generate a full portfolio from a prompt. Layout and content stay within PortfolioForge system limits so you can edit and publish immediately.',
-    tags: ['Modern', 'Creative', 'AI'],
-    colors: ['#070b16', '#6366f1'],
-    accent: '#6366f1',
-    component: AiDynamicTemplate,
-    built: true,
-    complexity: 'medium',
-    maxThemes: 2,
-    ai: true,
-  },
 };
 
 export const PORTFOLIO_TEMPLATE_LIST = Object.values(PORTFOLIO_TEMPLATES);
 
 export const getPortfolioTemplate = (id) => PORTFOLIO_TEMPLATES[id] || null;
 
-export { SawadTemplate, DevMinimalTemplate, VscodeStudioTemplate, CreativeModernTemplate, DeveloperClassicTemplate, SoumyaClassicTemplate, AuroraFluxTemplate, LumenBloomTemplate, MidnightGoldTemplate, PrismDriftTemplate, AiDynamicTemplate };
+export { SawadTemplate, DevMinimalTemplate, VscodeStudioTemplate, CreativeModernTemplate, DeveloperClassicTemplate, SoumyaClassicTemplate, AuroraFluxTemplate, LumenBloomTemplate, MidnightGoldTemplate, PrismDriftTemplate };

@@ -8,7 +8,6 @@ import { auroraFluxContent } from '../portfolio-templates/aurora-flux/aurora-flu
 import { lumenBloomContent } from '../portfolio-templates/lumen-bloom/lumen-bloom.content';
 import { midnightGoldContent } from '../portfolio-templates/midnight-gold/midnight-gold.content';
 import { prismDriftContent } from '../portfolio-templates/prism-drift/prism-drift.content';
-import { aiDynamicContent } from '../portfolio-templates/ai-dynamic/ai-dynamic.content';
 import { ensureUniversalContent } from '../portfolio-templates/shared/universalSections';
 
 export const DEFAULT_TEMPLATE_CONTENT = {
@@ -22,7 +21,6 @@ export const DEFAULT_TEMPLATE_CONTENT = {
   'lumen-bloom': structuredClone(lumenBloomContent),
   'midnight-gold': structuredClone(midnightGoldContent),
   'prism-drift': structuredClone(prismDriftContent),
-  'ai-dynamic': structuredClone(aiDynamicContent),
 };
 
 export function getDefaultContent(templateId) {

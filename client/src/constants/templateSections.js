@@ -89,15 +89,6 @@ export const BUILT_TEMPLATE_SECTIONS = {
     { id: 'experience', label: 'Path', icon: '▣' },
     { id: 'contact', label: 'Contact', icon: '✉' },
   ],
-  'ai-dynamic': [
-    { id: 'hero', label: 'Hero', icon: '⬡', fixed: true },
-    { id: 'about', label: 'About', icon: '◎' },
-    { id: 'skills', label: 'Skills', icon: '◈' },
-    { id: 'projects', label: 'Projects', icon: '▦' },
-    { id: 'experience', label: 'Experience', icon: '▣' },
-    { id: 'education', label: 'Education', icon: '▤' },
-    { id: 'contact', label: 'Contact', icon: '✉' },
-  ],
 };
 
 export const DEFAULT_SECTION_ORDER = {
@@ -111,7 +102,6 @@ export const DEFAULT_SECTION_ORDER = {
   'lumen-bloom': ['about', 'skills', 'projects', 'experience', 'contact'],
   'midnight-gold': ['about', 'skills', 'projects', 'experience', 'contact'],
   'prism-drift': ['about', 'skills', 'projects', 'experience', 'contact'],
-  'ai-dynamic': ['about', 'skills', 'projects', 'experience', 'education', 'contact'],
   generic: ['hero', 'about', 'projects', 'skills', 'contact'],
 };
 

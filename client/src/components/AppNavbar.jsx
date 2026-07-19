@@ -11,7 +11,6 @@ const links = [
   { to: '/home', label: 'Home' },
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/templates', label: 'Templates' },
-  { to: '/create', label: 'Build with AI' },
   { to: '/my-templates', label: 'My Work' },
 ];
 
